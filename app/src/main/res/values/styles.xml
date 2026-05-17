@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilos de texto según sección 4.2 del documento -->
+
+    <style name="TextAppearance.SwiftPay.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">57sp</item>
+        <item name="android:letterSpacing">-0.25</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.25</item>
+    </style>
+
+    <style name="TextAppearance.SwiftPay.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.1</item>
+    </style>
+
+    <!-- Estilo de botón primario -->
+    <style name="Widget.SwiftPay.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:paddingStart">@dimen/padding_button_horizontal</item>
+        <item name="android:paddingEnd">@dimen/padding_button_horizontal</item>
+        <item name="cornerRadius">@dimen/corner_radius_button</item>
+    </style>
+
+    <!-- Estilo de Card -->
+    <style name="Widget.SwiftPay.CardView" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">@dimen/corner_radius_card</item>
+        <item name="cardElevation">@dimen/elevation_card</item>
+        <item name="contentPadding">@dimen/padding_card</item>
+    </style>
+</resources>

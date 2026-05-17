@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores Primarios -->
+    <color name="colorPrimary">#1565C0</color>
+    <color name="colorPrimaryDark">#003C8F</color>
+    <color name="colorPrimaryLight">#5E92F3</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+
+    <!-- Colores de Acento -->
+    <color name="colorAccent">#FF6F00</color>
+    <color name="colorAccentLight">#FFA040</color>
+
+    <!-- Fondos y Superficies (Modo Claro) -->
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceVariant">#EEEEEE</color>
+    <color name="colorOnSurface">#212121</color>
+    <color name="colorOnBackground">#424242</color>
+
+    <!-- Estados Semánticos -->
+    <color name="colorSuccess">#2E7D32</color>
+    <color name="colorSuccessLight">#E8F5E9</color>
+    <color name="colorError">#B00020</color>
+    <color name="colorErrorLight">#FFEBEE</color>
+    <color name="colorWarning">#E65100</color>
+    <color name="colorWarningLight">#FFF3E0</color>
+    <color name="colorInfo">#0277BD</color>
+    <color name="colorInfoLight">#E1F5FE</color>
+
+    <!-- Texto -->
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorTextDisabled">#BDBDBD</color>
+    <color name="colorTextOnDark">#FFFFFF</color>
+
+    <!-- Bordes y Divisores -->
+    <color name="colorDivider">#E0E0E0</color>
+    <color name="colorBorder">#BDBDBD</color>
+    <color name="colorBorderFocus">#1565C0</color>
+
+    <!-- Básicos -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

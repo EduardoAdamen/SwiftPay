@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modo Oscuro - Colores adaptados para contraste -->
+    <color name="colorPrimary">#90CAF9</color>
+    <color name="colorPrimaryDark">#5D99C6</color>
+    <color name="colorPrimaryLight">#C3FDFF</color>
+    <color name="colorOnPrimary">#000000</color>
+
+    <color name="colorAccent">#FFB74D</color>
+    <color name="colorAccentLight">#FFE97D</color>
+
+    <color name="colorBackground">#121212</color>
+    <color name="colorSurface">#1E1E1E</color>
+    <color name="colorSurfaceVariant">#2C2C2C</color>
+    <color name="colorOnSurface">#E0E0E0</color>
+    <color name="colorOnBackground">#BDBDBD</color>
+
+    <color name="colorSuccess">#81C784</color>
+    <color name="colorSuccessLight">#1B5E20</color>
+    <color name="colorError">#EF5350</color>
+    <color name="colorErrorLight">#B71C1C</color>
+    <color name="colorWarning">#FFB74D</color>
+    <color name="colorWarningLight">#E65100</color>
+    <color name="colorInfo">#4FC3F7</color>
+    <color name="colorInfoLight">#01579B</color>
+
+    <color name="colorTextPrimary">#E0E0E0</color>
+    <color name="colorTextSecondary">#9E9E9E</color>
+    <color name="colorTextDisabled">#616161</color>
+    <color name="colorTextOnDark">#FFFFFF</color>
+
+    <color name="colorDivider">#424242</color>
+    <color name="colorBorder">#616161</color>
+    <color name="colorBorderFocus">#90CAF9</color>
+</resources>

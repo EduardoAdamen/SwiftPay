@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SwiftPay</string>
+
+    <!-- Navegación -->
+    <string name="navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close">Cerrar menú de navegación</string>
+
+    <!-- Menú - Secciones -->
+    <string name="menu_dashboard">Panel de Control</string>
+    <string name="menu_sales">Ventas</string>
+    <string name="menu_clients">Clientes</string>
+    <string name="menu_products">Productos</string>
+    <string name="menu_brands">Marcas</string>
+    <string name="menu_discounts">Descuentos</string>
+    <string name="menu_suppliers">Proveedores</string>
+    <string name="menu_users">Usuarios</string>
+    <string name="menu_notifications">Notificaciones</string>
+    <string name="menu_settings">Configuración</string>
+    <string name="menu_profile">Mi Perfil</string>
+    <string name="menu_logout">Cerrar Sesión</string>
+
+    <!-- Drawer Header -->
+    <string name="nav_header_default_name">Usuario</string>
+    <string name="nav_header_default_role">Rol</string>
+
+    <!-- General -->
+    <string name="loading">Cargando…</string>
+    <string name="error_generic">Ha ocurrido un error</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_delete">Eliminar</string>
+    <string name="btn_edit">Editar</string>
+    <string name="btn_create">Crear</string>
+    <string name="btn_search">Buscar</string>
+    <string name="btn_filter">Filtrar</string>
+    <string name="btn_retry">Reintentar</string>
+    <string name="confirm_delete_title">Confirmar eliminación</string>
+    <string name="confirm_delete_message">¿Estás seguro de que deseas eliminar este elemento?</string>
+    <string name="access_denied">Acceso Denegado</string>
+    <string name="access_denied_message">No tienes permisos para acceder a esta sección.</string>
+    <string name="session_expired">Tu sesión ha expirado. Inicia sesión nuevamente.</string>
+    <string name="no_data">No hay datos para mostrar</string>
+
+    <!-- Placeholder para loginFragment (será completado en Sprint 1) -->
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_placeholder">Bienvenido a SwiftPay</string>
+</resources>

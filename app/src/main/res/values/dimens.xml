@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Márgenes y Padding -->
+    <dimen name="margin_lateral">16dp</dimen>
+    <dimen name="padding_card">12dp</dimen>
+    <dimen name="padding_button_horizontal">16dp</dimen>
+    <dimen name="padding_button_vertical">12dp</dimen>
+    <dimen name="spacing_elements">8dp</dimen>
+    <dimen name="spacing_sections">24dp</dimen>
+
+    <!-- Componentes -->
+    <dimen name="drawer_width">360dp</dimen>
+    <dimen name="drawer_item_height">56dp</dimen>
+    <dimen name="drawer_corner_radius">28dp</dimen>
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="text_field_height">56dp</dimen>
+    <dimen name="list_item_height">62dp</dimen>
+    <dimen name="list_item_compact_height">48dp</dimen>
+
+    <!-- Íconos -->
+    <dimen name="icon_action">24dp</dimen>
+    <dimen name="icon_button">18dp</dimen>
+    <dimen name="icon_list">24dp</dimen>
+    <dimen name="icon_toolbar">24dp</dimen>
+    <dimen name="icon_status">16dp</dimen>
+
+    <!-- Avatares -->
+    <dimen name="avatar_small">40dp</dimen>
+    <dimen name="avatar_large">96dp</dimen>
+
+    <!-- Radio de esquinas -->
+    <dimen name="corner_radius_card">12dp</dimen>
+    <dimen name="corner_radius_button">24dp</dimen>
+    <dimen name="corner_radius_dialog">28dp</dimen>
+
+    <!-- Elevación -->
+    <dimen name="elevation_card">2dp</dimen>
+    <dimen name="elevation_dialog">24dp</dimen>
+
+    <!-- Grid base -->
+    <dimen name="grid_base">8dp</dimen>
+</resources>

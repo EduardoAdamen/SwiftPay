@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_admin_main">
+        <item android:id="@+id/nav_dashboard" android:icon="@drawable/ic_home" android:title="@string/menu_dashboard" />
+        <item android:id="@+id/nav_sales" android:icon="@drawable/ic_point_of_sale" android:title="@string/menu_sales" />
+        <item android:id="@+id/nav_clients" android:icon="@drawable/ic_people" android:title="@string/menu_clients" />
+        <item android:id="@+id/nav_products" android:icon="@drawable/ic_inventory_2" android:title="@string/menu_products" />
+        <item android:id="@+id/nav_brands" android:icon="@drawable/ic_label" android:title="@string/menu_brands" />
+        <item android:id="@+id/nav_discounts" android:icon="@drawable/ic_local_offer" android:title="@string/menu_discounts" />
+        <item android:id="@+id/nav_suppliers" android:icon="@drawable/ic_local_shipping" android:title="@string/menu_suppliers" />
+        <item android:id="@+id/nav_users" android:icon="@drawable/ic_admin_panel_settings" android:title="@string/menu_users" />
+    </group>
+    <group android:id="@+id/group_admin_account">
+        <item android:id="@+id/nav_profile" android:icon="@drawable/ic_account_circle" android:title="@string/menu_profile" />
+        <item android:id="@+id/nav_settings" android:icon="@drawable/ic_settings" android:title="@string/menu_settings" />
+        <item android:id="@+id/nav_logout" android:icon="@drawable/ic_logout" android:title="@string/menu_logout" />
+    </group>
+</menu>
