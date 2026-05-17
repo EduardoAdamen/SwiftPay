@@ -135,11 +135,27 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Navegar al destino correspondiente
         int itemId = item.getItemId();
-        if (navController != null) {
-            NavigationUI.onNavDestinationSelected(item, navController);
+        
+        if (itemId == R.id.nav_logout) {
+            // RF 1.4: Logout
+            com.swiftpay.util.AuditLogger.log(this, sessionManager.getUserId(), "LOGOUT", "USER", sessionManager.getUserId(), "Cierre de sesión manual");
+            sessionManager.clearSession();
+            if (navController != null) {
+                navController.navigate(R.id.loginFragment);
+            }
+        } else if (itemId == R.id.nav_profile) {
+            if (navController != null) navController.navigate(R.id.profileFragment);
+        } else if (itemId == R.id.nav_users) {
+            if (navController != null) navController.navigate(R.id.userManagementFragment);
+        } else {
+            // Para las demás opciones de menú que no tienen fragmentos aún, navegar a dashboard o dejar que NavigationUI intente.
+            // Para el foundation, si el fragment existe, NavigationUI lo manejará.
+            if (navController != null) {
+                NavigationUI.onNavDestinationSelected(item, navController);
+            }
         }
+        
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

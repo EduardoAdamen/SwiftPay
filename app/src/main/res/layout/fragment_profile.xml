@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_lateral">
+
+        <!-- Avatar -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_sections"
+            android:layout_marginBottom="@dimen/spacing_sections">
+
+            <ImageView
+                android:id="@+id/iv_profile_avatar"
+                android:layout_width="@dimen/avatar_large"
+                android:layout_height="@dimen/avatar_large"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_account_circle"
+                android:contentDescription="@string/profile_photo"
+                android:scaleType="centerCrop"
+                app:tint="@color/colorPrimary" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_change_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginStart="48dp"
+                android:contentDescription="@string/change_photo"
+                app:srcCompat="@drawable/ic_photo_camera"
+                app:fabSize="mini"
+                app:backgroundTint="@color/colorAccent"
+                app:tint="@color/white" />
+        </FrameLayout>
+
+        <!-- Card de información -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.SwiftPay.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_elements">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_info_title"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+                    android:textColor="@color/colorTextPrimary"
+                    android:layout_marginBottom="@dimen/spacing_elements" />
+
+                <!-- Nombre completo -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_full_name"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                    android:textColor="@color/colorTextPrimary"
+                    android:layout_marginBottom="@dimen/spacing_elements" />
+
+                <!-- Nombre de usuario -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_username"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_profile_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                    android:textColor="@color/colorTextPrimary"
+                    android:layout_marginBottom="@dimen/spacing_elements" />
+
+                <!-- Rol -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_role"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_profile_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                    android:textColor="@color/colorTextPrimary" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón cambiar contraseña -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_change_password"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/btn_change_password"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_lock"
+            android:layout_marginTop="@dimen/spacing_elements" />
+
+    </LinearLayout>
+</ScrollView>

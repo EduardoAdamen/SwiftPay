@@ -4,10 +4,56 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
 
-    <!-- Placeholder login fragment (será completado en Sprint 1) -->
+    <!-- Auth -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.swiftpay.ui.auth.LoginFragment"
         android:label="@string/login_title" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.swiftpay.ui.auth.ProfileFragment"
+        android:label="@string/menu_profile" />
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.swiftpay.ui.auth.ChangePasswordFragment"
+        android:label="@string/change_password_title" />
+
+    <fragment
+        android:id="@+id/forcePasswordChangeFragment"
+        android:name="com.swiftpay.ui.auth.ForcePasswordChangeFragment"
+        android:label="@string/force_change_password_title" />
+
+    <fragment
+        android:id="@+id/userManagementFragment"
+        android:name="com.swiftpay.ui.auth.UserManagementFragment"
+        android:label="@string/menu_users" />
+
+    <!-- Common -->
+    <fragment
+        android:id="@+id/accessDeniedFragment"
+        android:name="com.swiftpay.ui.common.AccessDeniedFragment"
+        android:label="@string/access_denied" />
+
+    <!-- Placeholder Dashboard para permitir navegación inicial -->
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.swiftpay.ui.dashboard.DashboardFragment"
+        android:label="@string/menu_dashboard" />
+
+    <!-- Mapeo de IDs de menú a destinos futuros (Sprints 2+) -->
+    <!-- Se implementarán en sus respectivos sprints, por ahora redirigen al dashboard o denegado para no crashear -->
+    <fragment android:id="@+id/nav_sales" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <fragment android:id="@+id/nav_clients" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <fragment android:id="@+id/nav_products" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <fragment android:id="@+id/nav_brands" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <fragment android:id="@+id/nav_discounts" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <fragment android:id="@+id/nav_suppliers" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <fragment android:id="@+id/nav_settings" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    
+    <!-- Redirecciones del menú a destinos reales creados en este sprint -->
+    <action android:id="@+id/action_global_nav_profile" app:destination="@id/profileFragment" />
+    <action android:id="@+id/action_global_nav_users" app:destination="@id/userManagementFragment" />
 
 </navigation>

@@ -45,4 +45,35 @@
     <!-- Placeholder para loginFragment (será completado en Sprint 1) -->
     <string name="login_title">Iniciar Sesión</string>
     <string name="login_placeholder">Bienvenido a SwiftPay</string>
+    <!-- Auth / Sprint 1 Strings -->
+    <string name="login_subtitle">Ingresa tus credenciales para continuar</string>
+    <string name="hint_username">Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">Iniciar Sesión</string>
+    <string name="login_error_empty">Por favor, completa todos los campos</string>
+    
+    <string name="profile_info_title">Información de la Cuenta</string>
+    <string name="label_full_name">Nombre Completo</string>
+    <string name="label_username">Nombre de Usuario</string>
+    <string name="label_role">Rol Asignado</string>
+    <string name="btn_change_password">Cambiar Contraseña</string>
+    <string name="profile_photo">Foto de perfil</string>
+    <string name="change_photo">Cambiar foto</string>
+    
+    <string name="change_password_title">Cambiar Contraseña</string>
+    <string name="hint_current_password">Contraseña Actual</string>
+    <string name="hint_new_password">Nueva Contraseña</string>
+    <string name="hint_confirm_password">Confirmar Contraseña</string>
+    <string name="password_requirements">Mínimo 8 caracteres, al menos una letra y un número</string>
+    <string name="btn_save_password">Guardar Contraseña</string>
+    <string name="password_changed_success">Contraseña actualizada exitosamente</string>
+    
+    <string name="force_change_password_title">Cambio de Contraseña Requerido</string>
+    <string name="force_change_password_message">Por razones de seguridad, debes cambiar tu contraseña temporal antes de continuar.</string>
+    
+    <string name="user_management_title">Gestión de Usuarios</string>
+    <string name="btn_add_user">Nuevo Usuario</string>
+    <string name="no_users">No hay usuarios registrados</string>
+
+    <string name="error_image_too_large">La imagen es demasiado grande. Máximo 5MB.</string>
 </resources>

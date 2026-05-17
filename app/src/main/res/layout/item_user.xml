@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="@dimen/corner_radius_card"
+    app:cardElevation="@dimen/elevation_card">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_card">
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="@dimen/avatar_small"
+            android:layout_height="@dimen/avatar_small"
+            android:src="@drawable/ic_account_circle"
+            android:contentDescription="@string/profile_photo"
+            app:tint="@color/colorPrimary" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/spacing_elements">
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+                android:textColor="@color/colorTextPrimary"
+                android:maxLines="1"
+                android:ellipsize="end" />
+            <TextView
+                android:id="@+id/tv_user_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+                android:textColor="@color/colorTextSecondary" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_user_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp" />
+        <ImageView
+            android:id="@+id/iv_user_menu"
+            android:layout_width="@dimen/icon_action"
+            android:layout_height="@dimen/icon_action"
+            android:layout_marginStart="@dimen/spacing_elements"
+            android:src="@drawable/ic_edit"
+            android:contentDescription="@string/btn_edit"
+            app:tint="@color/colorTextSecondary" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
