@@ -49,7 +49,14 @@
     <fragment
         android:id="@+id/nav_dashboard"
         android:name="com.swiftpay.ui.dashboard.DashboardFragment"
-        android:label="@string/menu_dashboard" />
+        android:label="@string/menu_dashboard">
+        <action android:id="@+id/action_dashboard_to_eventList" app:destination="@id/eventListFragment" />
+    </fragment>
+    
+    <fragment
+        android:id="@+id/eventListFragment"
+        android:name="com.swiftpay.ui.dashboard.EventListFragment"
+        android:label="Eventos del Sistema" />
 
     <!-- Catálogo de Productos y Marcas -->
     <fragment
@@ -245,3 +252,5 @@
     <action android:id="@+id/action_global_nav_sales" app:destination="@id/saleListFragment" />
 
 </navigation>
+
+
