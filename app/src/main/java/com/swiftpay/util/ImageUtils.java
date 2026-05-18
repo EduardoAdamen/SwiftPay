@@ -50,6 +50,32 @@ public final class ImageUtils {
     }
 
     /**
+     * Guarda la imagen de un producto.
+     * Se comprime a 80% JPEG y se almacena en getFilesDir()/images/products/product_{timestamp}.jpg.
+     */
+    public static String saveProductImage(Context context, Bitmap bitmap) {
+        try {
+            File dir = new File(context.getFilesDir(), "images/products");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            String fileName = "product_" + System.currentTimeMillis() + ".jpg";
+            File file = new File(dir, fileName);
+
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.IMAGE_COMPRESSION_QUALITY, fos);
+            fos.flush();
+            fos.close();
+
+            return "images/products/" + fileName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Carga un Bitmap desde una Uri, validando el tamaño máximo.
      *
      * @param context contexto

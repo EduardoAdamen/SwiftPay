@@ -42,18 +42,32 @@
         android:name="com.swiftpay.ui.dashboard.DashboardFragment"
         android:label="@string/menu_dashboard" />
 
-    <!-- Mapeo de IDs de menú a destinos futuros (Sprints 2+) -->
-    <!-- Se implementarán en sus respectivos sprints, por ahora redirigen al dashboard o denegado para no crashear -->
+    <!-- Catálogo de Productos y Marcas -->
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.swiftpay.ui.catalog.ProductListFragment"
+        android:label="@string/menu_products" />
+
+    <fragment
+        android:id="@+id/brandListFragment"
+        android:name="com.swiftpay.ui.catalog.BrandListFragment"
+        android:label="@string/menu_brands" />
+
+    <fragment
+        android:id="@+id/barcodeScannerFragment"
+        android:name="com.swiftpay.ui.catalog.BarcodeScannerFragment"
+        android:label="Escáner" />
+
+    <!-- Mapeo de IDs de menú a destinos -->
     <fragment android:id="@+id/nav_sales" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
     <fragment android:id="@+id/nav_clients" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <fragment android:id="@+id/nav_products" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <fragment android:id="@+id/nav_brands" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <fragment android:id="@+id/nav_discounts" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <fragment android:id="@+id/nav_suppliers" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <fragment android:id="@+id/nav_settings" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <!-- Estos deben coincidir con nav_graph y con menu -->
+    <!-- En MainActivity NavigationUI.setupWithNavController ya usa nav_products y nav_brands -->
     
-    <!-- Redirecciones del menú a destinos reales creados en este sprint -->
     <action android:id="@+id/action_global_nav_profile" app:destination="@id/profileFragment" />
     <action android:id="@+id/action_global_nav_users" app:destination="@id/userManagementFragment" />
+    <action android:id="@+id/action_global_nav_products" app:destination="@id/productListFragment" />
+    <action android:id="@+id/action_global_nav_brands" app:destination="@id/brandListFragment" />
+
 
 </navigation>

@@ -148,6 +148,10 @@ public class MainActivity extends AppCompatActivity
             if (navController != null) navController.navigate(R.id.profileFragment);
         } else if (itemId == R.id.nav_users) {
             if (navController != null) navController.navigate(R.id.userManagementFragment);
+        } else if (itemId == R.id.nav_products) {
+            if (navController != null) navController.navigate(R.id.productListFragment);
+        } else if (itemId == R.id.nav_brands) {
+            if (navController != null) navController.navigate(R.id.brandListFragment);
         } else {
             // Para las demás opciones de menú que no tienen fragmentos aún, navegar a dashboard o dejar que NavigationUI intente.
             // Para el foundation, si el fragment existe, NavigationUI lo manejará.

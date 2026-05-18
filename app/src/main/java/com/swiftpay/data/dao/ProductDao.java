@@ -14,8 +14,13 @@ import java.util.List;
 public interface ProductDao {
     @Insert
     long insert(Product product);
-    @Update
-    void update(Product product);
+    @Query("UPDATE products SET sku = :sku, name = :name, " +
+           "price = :price, stock = :stock, category_id = :categoryId, brand_id = :brandId, " +
+           "image_path = :imagePath, is_active = :isActive, updated_at = :updatedAt, " +
+           "version = version + 1 WHERE id = :id AND version = :expectedVersion")
+    int updateOptimistic(long id, String sku, String name, double price, 
+                         int stock, long categoryId, Long brandId, String imagePath, 
+                         int isActive, long updatedAt, int expectedVersion);
     @Delete
     void delete(Product product);
     @Query("SELECT * FROM products WHERE id = :id")

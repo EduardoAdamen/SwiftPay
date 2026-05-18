@@ -1,0 +1,92 @@
+package com.swiftpay.viewmodel;
+
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PagingData;
+import com.swiftpay.data.entity.Product;
+import com.swiftpay.data.repository.ProductRepository;
+
+/**
+ * ViewModel para la gestión del catálogo de Productos.
+ */
+public class ProductViewModel extends AndroidViewModel {
+
+    private final ProductRepository repository;
+    private final MutableLiveData<String> operationMessage = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> operationSuccess = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    
+    private LiveData<PagingData<Product>> allPagedProducts;
+    private LiveData<PagingData<Product>> activePagedProducts;
+    private final MutableLiveData<Product> scannedProductResult = new MutableLiveData<>();
+
+    public ProductViewModel(@NonNull Application application) {
+        super(application);
+        this.repository = new ProductRepository(application);
+    }
+
+    public LiveData<String> getOperationMessage() { return operationMessage; }
+    public LiveData<Boolean> getOperationSuccess() { return operationSuccess; }
+    public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Product> getScannedProductResult() { return scannedProductResult; }
+
+    /** Obtiene el catálogo completo (para gestores/admin) */
+    public LiveData<PagingData<Product>> getAllProductsPaged() {
+        if (allPagedProducts == null) {
+            allPagedProducts = repository.getAllProductsPaged();
+        }
+        return allPagedProducts;
+    }
+
+    /** Obtiene solo los activos (para vendedores) */
+    public LiveData<PagingData<Product>> getActiveProductsPaged() {
+        if (activePagedProducts == null) {
+            activePagedProducts = repository.getActiveProductsPaged();
+        }
+        return activePagedProducts;
+    }
+
+    public LiveData<Product> getProductById(long id) {
+        return repository.getProductById(id);
+    }
+
+    /** Busca un producto por SKU y actualiza el LiveData de resultado */
+    public void searchBySku(String sku) {
+        isLoading.setValue(true);
+        repository.getProductBySku(sku, product -> {
+            isLoading.postValue(false);
+            scannedProductResult.postValue(product);
+        });
+    }
+
+    public void clearScannedResult() {
+        scannedProductResult.setValue(null);
+    }
+
+    public void saveProduct(Product product, long userId) {
+        isLoading.setValue(true);
+        ProductRepository.OperationCallback callback = (success, message) -> {
+            isLoading.postValue(false);
+            operationSuccess.postValue(success);
+            operationMessage.postValue(message);
+        };
+        
+        if (product.getId() == 0) {
+            repository.createProduct(product, userId, callback);
+        } else {
+            repository.updateProduct(product, userId, callback);
+        }
+    }
+
+    public void deleteProduct(Product product, long adminUserId) {
+        isLoading.setValue(true);
+        repository.deleteProduct(product, adminUserId, (success, message) -> {
+            isLoading.postValue(false);
+            operationSuccess.postValue(success);
+            operationMessage.postValue(message);
+        });
+    }
+}
