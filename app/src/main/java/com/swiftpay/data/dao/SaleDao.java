@@ -25,4 +25,7 @@ public interface SaleDao {
     LiveData<List<Sale>> getAll();
     @Query("SELECT SUM(total) FROM sales WHERE cash_register_id = :cashRegisterId AND payment_method = 'EFECTIVO' AND status IN ('PAGADA','COMPLETADA')")
     Double getCashSalesTotal(long cashRegisterId);
+
+    @androidx.room.RawQuery(observedEntities = Sale.class)
+    PagingSource<Integer, Sale> getFilteredSales(androidx.sqlite.db.SupportSQLiteQuery query);
 }

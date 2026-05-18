@@ -69,8 +69,28 @@
         android:name="com.swiftpay.ui.descuentos.DiscountListFragment"
         android:label="@string/menu_discounts" />
 
-    <!-- Mapeo de IDs de menú a destinos futuros (Sprints 4+) -->
-    <fragment android:id="@+id/nav_sales" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
+    <!-- Ventas -->
+    <fragment
+        android:id="@+id/saleListFragment"
+        android:name="com.swiftpay.ui.ventas.SaleListFragment"
+        android:label="Historial de Ventas" />
+
+    <fragment
+        android:id="@+id/saleCartFragment"
+        android:name="com.swiftpay.ui.ventas.SaleCartFragment"
+        android:label="Nueva Venta" />
+
+    <fragment
+        android:id="@+id/salePaymentFragment"
+        android:name="com.swiftpay.ui.ventas.SalePaymentFragment"
+        android:label="Pago" />
+
+    <fragment
+        android:id="@+id/saleDetailFragment"
+        android:name="com.swiftpay.ui.ventas.SaleDetailFragment"
+        android:label="Detalle de Venta" />
+
+    <!-- Mapeo de IDs de menú a destinos futuros (Sprints 5+) -->
     <fragment android:id="@+id/nav_suppliers" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
     
     <action android:id="@+id/action_global_nav_profile" app:destination="@id/profileFragment" />
@@ -79,5 +99,6 @@
     <action android:id="@+id/action_global_nav_brands" app:destination="@id/brandListFragment" />
     <action android:id="@+id/action_global_nav_clients" app:destination="@id/clientListFragment" />
     <action android:id="@+id/action_global_nav_discounts" app:destination="@id/discountListFragment" />
+    <action android:id="@+id/action_global_nav_sales" app:destination="@id/saleListFragment" />
 
 </navigation>
