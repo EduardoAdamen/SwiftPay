@@ -227,4 +227,28 @@ public class SaleViewModel extends AndroidViewModel {
     public LiveData<PagingData<Sale>> getFilteredSalesPaged() {
         return repository.getFilteredSales(filterQuery.getValue(), filterStatus.getValue());
     }
+
+    public void updateStatus(long saleId, String newStatus, long changedByUserId) {
+        isLoading.setValue(true);
+        repository.updateStatus(saleId, newStatus, changedByUserId, (success, msg, id) -> {
+            isLoading.setValue(false);
+            if (success) {
+                operationSuccess.setValue(true);
+            } else {
+                operationMessage.setValue(msg);
+            }
+        });
+    }
+
+    public LiveData<Sale> getSaleById(long id) {
+        return repository.getSaleById(id);
+    }
+
+    public LiveData<java.util.List<SaleItem>> getSaleItems(long saleId) {
+        return repository.getSaleItems(saleId);
+    }
+
+    public LiveData<java.util.List<com.swiftpay.data.entity.SaleStatusHistory>> getSaleStatusHistory(long saleId) {
+        return repository.getSaleStatusHistory(saleId);
+    }
 }

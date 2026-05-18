@@ -90,6 +90,26 @@
         android:name="com.swiftpay.ui.ventas.SaleDetailFragment"
         android:label="Detalle de Venta" />
 
+    <fragment
+        android:id="@+id/cashOpenFragment"
+        android:name="com.swiftpay.ui.ventas.CashOpenFragment"
+        android:label="Apertura de Caja" />
+
+    <fragment
+        android:id="@+id/cashCloseFragment"
+        android:name="com.swiftpay.ui.ventas.CashCloseFragment"
+        android:label="Cierre de Caja" />
+
+    <fragment
+        android:id="@+id/cashReportFragment"
+        android:name="com.swiftpay.ui.ventas.CashReportFragment"
+        android:label="Reporte de Arqueo" />
+
+    <fragment
+        android:id="@+id/saleStatusHistoryFragment"
+        android:name="com.swiftpay.ui.ventas.SaleStatusHistoryFragment"
+        android:label="Historial de Estados" />
+
     <!-- Mapeo de IDs de menú a destinos futuros (Sprints 5+) -->
     <fragment android:id="@+id/nav_suppliers" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
     

@@ -13,6 +13,7 @@ import com.swiftpay.data.entity.SaleItem;
 import com.swiftpay.data.entity.SaleStatusHistory;
 import com.swiftpay.data.entity.SystemEvent;
 import com.swiftpay.util.AuditLogger;
+import com.swiftpay.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -63,6 +64,10 @@ public class SaleRepository {
 
     public LiveData<List<SaleItem>> getSaleItems(long saleId) {
         return db.saleItemDao().getBySaleId(saleId);
+    }
+
+    public LiveData<List<SaleStatusHistory>> getSaleStatusHistory(long saleId) {
+        return db.saleStatusHistoryDao().getBySaleId(saleId);
     }
 
     public interface CreateSaleCallback {
@@ -120,6 +125,54 @@ public class SaleRepository {
                         callback.onResult(false, e.getMessage(), null)
                     );
                     throw e; // To trigger rollback
+                }
+            });
+        });
+    }
+
+    public void updateStatus(long saleId, String newStatus, long changedByUserId, CreateSaleCallback callback) {
+        executor.execute(() -> {
+            db.runInTransaction(() -> {
+                try {
+                    Sale sale = db.saleDao().getByIdSync(saleId);
+                    if (sale == null) throw new RuntimeException("Venta no encontrada");
+                    
+                    String oldStatus = sale.getStatus();
+                    
+                    // Validate transitions
+                    boolean valid = false;
+                    if (Constants.STATUS_PENDIENTE.equals(oldStatus)) {
+                        valid = Constants.STATUS_PAGADA.equals(newStatus) || Constants.STATUS_CANCELADA.equals(newStatus);
+                    } else if (Constants.STATUS_PAGADA.equals(oldStatus)) {
+                        valid = Constants.STATUS_COMPLETADA.equals(newStatus) || Constants.STATUS_CANCELADA.equals(newStatus);
+                    }
+                    
+                    if (!valid) {
+                        throw new RuntimeException("Transición de estado inválida: " + oldStatus + " -> " + newStatus);
+                    }
+
+                    sale.setStatus(newStatus);
+                    sale.setUpdatedAt(System.currentTimeMillis());
+                    db.saleDao().update(sale);
+
+                    SaleStatusHistory history = new SaleStatusHistory();
+                    history.setSaleId(saleId);
+                    history.setPreviousStatus(oldStatus);
+                    history.setNewStatus(newStatus);
+                    history.setChangedBy(changedByUserId);
+                    history.setChangedAt(System.currentTimeMillis());
+                    db.saleStatusHistoryDao().insert(history);
+
+                    AuditLogger.log(context, changedByUserId, "UPDATE_STATUS", "SALE", saleId, oldStatus + "->" + newStatus);
+
+                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> 
+                        callback.onResult(true, "Estado actualizado", saleId)
+                    );
+                } catch (Exception e) {
+                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> 
+                        callback.onResult(false, e.getMessage(), null)
+                    );
+                    throw e;
                 }
             });
         });
