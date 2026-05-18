@@ -146,17 +146,17 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (itemId == R.id.nav_profile) {
             if (navController != null) navController.navigate(R.id.profileFragment);
-        } else if (itemId == R.id.nav_users) {
+        } else if (itemId == R.id.userManagementFragment) {
             if (navController != null) navController.navigate(R.id.userManagementFragment);
-        } else if (itemId == R.id.nav_products) {
+        } else if (itemId == R.id.productListFragment) {
             if (navController != null) navController.navigate(R.id.productListFragment);
-        } else if (itemId == R.id.nav_brands) {
+        } else if (itemId == R.id.brandListFragment) {
             if (navController != null) navController.navigate(R.id.brandListFragment);
-        } else if (itemId == R.id.nav_clients) {
+        } else if (itemId == R.id.clientListFragment) {
             if (navController != null) navController.navigate(R.id.clientListFragment);
-        } else if (itemId == R.id.nav_discounts) {
+        } else if (itemId == R.id.discountListFragment) {
             if (navController != null) navController.navigate(R.id.discountListFragment);
-        } else if (itemId == R.id.nav_sales) {
+        } else if (itemId == R.id.saleListFragment) {
             if (navController != null) navController.navigate(R.id.saleListFragment);
         } else {
             // Para las demás opciones de menú que no tienen fragmentos aún, navegar a dashboard o dejar que NavigationUI intente.

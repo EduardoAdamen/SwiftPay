@@ -28,7 +28,16 @@
     <fragment
         android:id="@+id/userManagementFragment"
         android:name="com.swiftpay.ui.auth.UserManagementFragment"
-        android:label="@string/menu_users" />
+        android:label="@string/menu_users">
+        <action
+            android:id="@+id/action_userManagement_to_userForm"
+            app:destination="@id/userFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userFormFragment"
+        android:name="com.swiftpay.ui.auth.UserFormFragment"
+        android:label="Crear Usuario" />
 
     <!-- Common -->
     <fragment
@@ -46,12 +55,23 @@
     <fragment
         android:id="@+id/productListFragment"
         android:name="com.swiftpay.ui.catalog.ProductListFragment"
-        android:label="@string/menu_products" />
+        android:label="@string/menu_products">
+        <action
+            android:id="@+id/action_productList_to_productForm"
+            app:destination="@id/productFormFragment" />
+        <action
+            android:id="@+id/action_productList_to_productDetail"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/brandListFragment"
         android:name="com.swiftpay.ui.catalog.BrandListFragment"
-        android:label="@string/menu_brands" />
+        android:label="@string/menu_brands">
+        <action
+            android:id="@+id/action_brandList_to_brandForm"
+            app:destination="@id/brandFormFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/barcodeScannerFragment"
@@ -62,12 +82,23 @@
     <fragment
         android:id="@+id/clientListFragment"
         android:name="com.swiftpay.ui.clientes.ClientListFragment"
-        android:label="@string/menu_clients" />
+        android:label="@string/menu_clients">
+        <action
+            android:id="@+id/action_clientList_to_clientForm"
+            app:destination="@id/clientFormFragment" />
+        <action
+            android:id="@+id/action_clientList_to_clientDetail"
+            app:destination="@id/clientDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/discountListFragment"
         android:name="com.swiftpay.ui.descuentos.DiscountListFragment"
-        android:label="@string/menu_discounts" />
+        android:label="@string/menu_discounts">
+        <action
+            android:id="@+id/action_discountList_to_discountForm"
+            app:destination="@id/discountFormFragment" />
+    </fragment>
 
     <!-- Ventas -->
     <fragment
@@ -111,8 +142,100 @@
         android:label="Historial de Estados" />
 
     <!-- Mapeo de IDs de menú a destinos futuros (Sprints 5+) -->
-    <fragment android:id="@+id/nav_suppliers" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    
+    <!-- Módulos Sprint 6 Proveedores y Ordenes -->
+    <fragment
+        android:id="@+id/nav_suppliers"
+        android:name="com.swiftpay.ui.proveedores.SupplierListFragment"
+        android:label="Proveedores">
+        <action
+            android:id="@+id/action_supplierList_to_supplierDetail"
+            app:destination="@id/supplierDetailFragment" />
+        <action
+            android:id="@+id/action_supplierList_to_supplierForm"
+            app:destination="@id/supplierFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/supplierDetailFragment"
+        android:name="com.swiftpay.ui.proveedores.SupplierDetailFragment"
+        android:label="Detalle Proveedor">
+        <action
+            android:id="@+id/action_supplierDetail_to_supplierForm"
+            app:destination="@id/supplierFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/supplierFormFragment"
+        android:name="com.swiftpay.ui.proveedores.SupplierFormFragment"
+        android:label="Proveedor" />
+
+    <fragment
+        android:id="@+id/nav_purchase_orders"
+        android:name="com.swiftpay.ui.proveedores.PurchaseOrderListFragment"
+        android:label="Órdenes de Compra">
+        <action
+            android:id="@+id/action_purchaseOrderList_to_purchaseOrderDetail"
+            app:destination="@id/purchaseOrderDetailFragment" />
+        <action
+            android:id="@+id/action_purchaseOrderList_to_purchaseOrderForm"
+            app:destination="@id/purchaseOrderFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/purchaseOrderDetailFragment"
+        android:name="com.swiftpay.ui.proveedores.PurchaseOrderDetailFragment"
+        android:label="Detalle Orden">
+        <action
+            android:id="@+id/action_purchaseOrderDetail_to_purchaseOrderForm"
+            app:destination="@id/purchaseOrderFormFragment" />
+        <action
+            android:id="@+id/action_purchaseOrderDetail_to_purchaseOrderReceive"
+            app:destination="@id/purchaseOrderReceiveFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/purchaseOrderFormFragment"
+        android:name="com.swiftpay.ui.proveedores.PurchaseOrderFormFragment"
+        android:label="Orden de Compra" />
+
+    <fragment
+        android:id="@+id/purchaseOrderReceiveFragment"
+        android:name="com.swiftpay.ui.proveedores.PurchaseOrderReceiveFragment"
+        android:label="Recepción Mercancía" />
+
+    <!-- Destinos de Catálogo -->
+    <fragment
+        android:id="@+id/productFormFragment"
+        android:name="com.swiftpay.ui.catalog.ProductFormFragment"
+        android:label="Crear/Editar Producto" />
+
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.swiftpay.ui.catalog.ProductDetailFragment"
+        android:label="Detalles de Producto" />
+
+    <fragment
+        android:id="@+id/brandFormFragment"
+        android:name="com.swiftpay.ui.catalog.BrandFormFragment"
+        android:label="Crear/Editar Marca" />
+        
+    <!-- Destinos de Clientes -->
+    <fragment
+        android:id="@+id/clientFormFragment"
+        android:name="com.swiftpay.ui.clientes.ClientFormFragment"
+        android:label="Crear/Editar Cliente" />
+
+    <fragment
+        android:id="@+id/clientDetailFragment"
+        android:name="com.swiftpay.ui.clientes.ClientDetailFragment"
+        android:label="Detalles de Cliente" />
+
+    <!-- Destinos de Descuentos -->
+    <fragment
+        android:id="@+id/discountFormFragment"
+        android:name="com.swiftpay.ui.descuentos.DiscountFormFragment"
+        android:label="Crear/Editar Descuento" />
+
     <action android:id="@+id/action_global_nav_profile" app:destination="@id/profileFragment" />
     <action android:id="@+id/action_global_nav_users" app:destination="@id/userManagementFragment" />
     <action android:id="@+id/action_global_nav_products" app:destination="@id/productListFragment" />

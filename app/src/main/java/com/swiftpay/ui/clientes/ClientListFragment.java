@@ -44,8 +44,9 @@ public class ClientListFragment extends Fragment {
         EditText etSearch = view.findViewById(R.id.et_search_client);
 
         adapter = new ClientPagingAdapter(client -> {
-            Toast.makeText(requireContext(), "Cliente seleccionado: " + client.getFullName(), Toast.LENGTH_SHORT).show();
-            // Implementar navegación a ClientDetailFragment
+            Bundle bundle = new Bundle();
+            bundle.putLong("clientId", client.getId());
+            androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_clientList_to_clientDetail, bundle);
         });
 
         rvClients.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -73,8 +74,7 @@ public class ClientListFragment extends Fragment {
         });
 
         fabAdd.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Nuevo Cliente", Toast.LENGTH_SHORT).show();
-            // Implementar navegación a ClientFormFragment
+            androidx.navigation.Navigation.findNavController(v).navigate(R.id.action_clientList_to_clientForm);
         });
     }
 }

@@ -51,7 +51,9 @@ public class DiscountListFragment extends Fragment {
 
         adapter = new DiscountPagingAdapter(
             code -> {
-                Toast.makeText(requireContext(), "Editar código: " + code.getCode(), Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putLong("discountId", code.getId());
+                androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_discountList_to_discountForm, bundle);
             },
             (code, isActive) -> {
                 code.setIsActive(isActive ? 1 : 0);
@@ -73,7 +75,7 @@ public class DiscountListFragment extends Fragment {
         });
 
         fabAdd.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Nuevo Descuento", Toast.LENGTH_SHORT).show();
+            androidx.navigation.Navigation.findNavController(v).navigate(R.id.action_discountList_to_discountForm);
         });
     }
 }

@@ -54,6 +54,9 @@ public class ProductListFragment extends Fragment {
         // Configurar FAB solo para ADMIN o GESTOR_PRODUCTOS
         if (sessionManager.hasRole("ADMINISTRADOR") || sessionManager.hasRole("GESTOR_PRODUCTOS")) {
             fabAdd.setVisibility(View.VISIBLE);
+            fabAdd.setOnClickListener(v -> {
+                androidx.navigation.Navigation.findNavController(v).navigate(R.id.action_productList_to_productForm);
+            });
         } else {
             fabAdd.setVisibility(View.GONE);
         }
@@ -61,8 +64,9 @@ public class ProductListFragment extends Fragment {
         // Adapter
         adapter = new ProductPagingAdapter(product -> {
             // Navegar a detalle de producto
-            Toast.makeText(requireContext(), "Click en: " + product.getName(), Toast.LENGTH_SHORT).show();
-            // Implementar navegación a ProductDetailFragment
+            Bundle bundle = new Bundle();
+            bundle.putLong("productId", product.getId());
+            androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_productList_to_productDetail, bundle);
         });
         
         rvProducts.setLayoutManager(new LinearLayoutManager(requireContext()));

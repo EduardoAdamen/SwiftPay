@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_gestor_main">
-        <item android:id="@+id/nav_products" android:icon="@drawable/ic_inventory_2" android:title="@string/menu_products" />
-        <item android:id="@+id/nav_brands" android:icon="@drawable/ic_label" android:title="@string/menu_brands" />
+        <item android:id="@+id/productListFragment" android:icon="@drawable/ic_inventory_2" android:title="@string/menu_products" />
+        <item android:id="@+id/brandListFragment" android:icon="@drawable/ic_label" android:title="@string/menu_brands" />
         <item android:id="@+id/nav_suppliers" android:icon="@drawable/ic_local_shipping" android:title="@string/menu_suppliers" />
+        <item android:id="@+id/nav_purchase_orders" android:icon="@drawable/ic_local_shipping" android:title="Órdenes de Compra" />
     </group>
     <group android:id="@+id/group_gestor_account">
         <item android:id="@+id/nav_profile" android:icon="@drawable/ic_account_circle" android:title="@string/menu_profile" />

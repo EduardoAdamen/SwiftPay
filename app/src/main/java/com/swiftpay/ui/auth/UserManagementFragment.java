@@ -88,12 +88,7 @@ public class UserManagementFragment extends Fragment {
     }
 
     private void showAddUserDialog() {
-        // En una app real esto sería un Fragment/BottomSheet, aquí simulamos con un diálogo simple
-        // por ser el foundation, o se usaría una pantalla completa.
-        // Dado el alcance, mostraremos un Toast indicando que se creará la vista en el Sprint 2
-        // o podemos implementar un AlertDialog simple.
-        Toast.makeText(requireContext(), "Creación de usuario en desarrollo (Sprint 2)", Toast.LENGTH_SHORT).show();
-        // Nota: La lógica del ViewModel ya está implementada (viewModel.createUser(...))
+        androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_userManagement_to_userForm);
     }
 
     private void showUserOptionsDialog(User user) {

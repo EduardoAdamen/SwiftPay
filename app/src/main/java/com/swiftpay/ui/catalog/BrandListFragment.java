@@ -52,8 +52,9 @@ public class BrandListFragment extends Fragment {
 
         // Adapter
         adapter = new BrandPagingAdapter(brand -> {
-            Toast.makeText(requireContext(), "Editar marca: " + brand.getName(), Toast.LENGTH_SHORT).show();
-            // Aquí se abriría el formulario BrandFormFragment
+            Bundle bundle = new Bundle();
+            bundle.putLong("brandId", brand.getId());
+            androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_brandList_to_brandForm, bundle);
         });
 
         rvBrands.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -65,7 +66,7 @@ public class BrandListFragment extends Fragment {
         });
 
         fabAdd.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Nueva Marca", Toast.LENGTH_SHORT).show();
+            androidx.navigation.Navigation.findNavController(v).navigate(R.id.action_brandList_to_brandForm);
         });
     }
 }

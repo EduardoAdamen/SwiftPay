@@ -48,6 +48,7 @@ public abstract class SwiftPayDatabase extends RoomDatabase {
     public abstract ProductDao productDao();
     public abstract SupplierDao supplierDao();
     public abstract PurchaseOrderDao purchaseOrderDao();
+    public abstract PurchaseOrderItemDao purchaseOrderItemDao();
     public abstract SaleDao saleDao();
     public abstract SaleItemDao saleItemDao();
     public abstract SaleStatusHistoryDao saleStatusHistoryDao();

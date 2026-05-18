@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_vendedor_main">
-        <item android:id="@+id/nav_sales" android:icon="@drawable/ic_point_of_sale" android:title="@string/menu_sales" />
-        <item android:id="@+id/nav_clients" android:icon="@drawable/ic_people" android:title="@string/menu_clients" />
-        <item android:id="@+id/nav_products" android:icon="@drawable/ic_inventory_2" android:title="@string/menu_products" />
+        <item android:id="@+id/saleListFragment" android:icon="@drawable/ic_point_of_sale" android:title="@string/menu_sales" />
+        <item android:id="@+id/clientListFragment" android:icon="@drawable/ic_people" android:title="@string/menu_clients" />
+        <item android:id="@+id/productListFragment" android:icon="@drawable/ic_inventory_2" android:title="@string/menu_products" />
     </group>
     <group android:id="@+id/group_vendedor_account">
         <item android:id="@+id/nav_profile" android:icon="@drawable/ic_account_circle" android:title="@string/menu_profile" />
