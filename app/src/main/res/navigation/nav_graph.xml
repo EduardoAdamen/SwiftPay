@@ -58,16 +58,26 @@
         android:name="com.swiftpay.ui.catalog.BarcodeScannerFragment"
         android:label="Escáner" />
 
-    <!-- Mapeo de IDs de menú a destinos -->
+    <!-- Clientes y Descuentos -->
+    <fragment
+        android:id="@+id/clientListFragment"
+        android:name="com.swiftpay.ui.clientes.ClientListFragment"
+        android:label="@string/menu_clients" />
+
+    <fragment
+        android:id="@+id/discountListFragment"
+        android:name="com.swiftpay.ui.descuentos.DiscountListFragment"
+        android:label="@string/menu_discounts" />
+
+    <!-- Mapeo de IDs de menú a destinos futuros (Sprints 4+) -->
     <fragment android:id="@+id/nav_sales" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <fragment android:id="@+id/nav_clients" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
-    <!-- Estos deben coincidir con nav_graph y con menu -->
-    <!-- En MainActivity NavigationUI.setupWithNavController ya usa nav_products y nav_brands -->
+    <fragment android:id="@+id/nav_suppliers" android:name="com.swiftpay.ui.common.AccessDeniedFragment" />
     
     <action android:id="@+id/action_global_nav_profile" app:destination="@id/profileFragment" />
     <action android:id="@+id/action_global_nav_users" app:destination="@id/userManagementFragment" />
     <action android:id="@+id/action_global_nav_products" app:destination="@id/productListFragment" />
     <action android:id="@+id/action_global_nav_brands" app:destination="@id/brandListFragment" />
-
+    <action android:id="@+id/action_global_nav_clients" app:destination="@id/clientListFragment" />
+    <action android:id="@+id/action_global_nav_discounts" app:destination="@id/discountListFragment" />
 
 </navigation>

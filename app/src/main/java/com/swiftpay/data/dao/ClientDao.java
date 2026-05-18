@@ -32,4 +32,14 @@ public interface ClientDao {
     LiveData<Integer> getCount();
     @Query("SELECT COUNT(*) FROM clients WHERE is_active = 1")
     LiveData<Integer> getActiveCount();
+
+    @androidx.room.RawQuery(observedEntities = Client.class)
+    PagingSource<Integer, Client> getFilteredClients(androidx.sqlite.db.SupportSQLiteQuery query);
+
+    // Métricas simples
+    @Query("SELECT COUNT(*) FROM sales WHERE client_id = :clientId")
+    int getSalesCountForClient(long clientId);
+
+    @Query("SELECT SUM(total) FROM sales WHERE client_id = :clientId")
+    Double getTotalSalesForClient(long clientId);
 }

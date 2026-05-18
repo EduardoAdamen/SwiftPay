@@ -23,4 +23,7 @@ public interface ClientCategoryDao {
     LiveData<List<ClientCategory>> getAll();
     @Query("SELECT COUNT(*) FROM clients WHERE category_id = :categoryId")
     int getClientCountByCategory(long categoryId);
+    
+    @Query("SELECT * FROM client_categories WHERE id = :id")
+    ClientCategory getByIdSync(long id);
 }
