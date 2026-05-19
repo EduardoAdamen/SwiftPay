@@ -19,7 +19,7 @@ import java.util.Locale;
 public class PdfGenerator {
 
     public static File generateSaleReceipt(Context context, Sale sale, List<SaleItem> items) throws Exception {
-        File dir = new File(context.getExternalFilesDir(null), "receipts");
+        File dir = new File(context.getFilesDir(), "receipts");
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -46,7 +46,7 @@ public class PdfGenerator {
         // Items Table
         Table table = new Table(UnitValue.createPercentArray(new float[]{10, 50, 20, 20})).useAllAvailableWidth();
         table.addHeaderCell("Cant");
-        table.addHeaderCell("DescripciÃ³n");
+        table.addHeaderCell("Descripción");
         table.addHeaderCell("P.Unit");
         table.addHeaderCell("Subtotal");
 
@@ -72,7 +72,7 @@ public class PdfGenerator {
             document.add(new Paragraph(String.format(Locale.getDefault(), "Cambio: $%.2f", sale.getChangeAmount())).setTextAlignment(TextAlignment.RIGHT));
         }
 
-        document.add(new Paragraph("\n\nÂ¡Gracias por su compra!").setTextAlignment(TextAlignment.CENTER));
+        document.add(new Paragraph("\n\n¡Gracias por su compra!").setTextAlignment(TextAlignment.CENTER));
 
         document.close();
         return pdfFile;

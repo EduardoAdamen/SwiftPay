@@ -2,18 +2,20 @@ package com.swiftpay.util;
 
 import android.content.Context;
 import android.widget.ImageView;
+import com.bumptech.glide.Glide;
+import com.swiftpay.R;
 
 public class ImageLoader {
-    // Basic wrapper to toggle image loading
     public static void loadImage(Context context, String url, ImageView imageView, boolean imagesEnabled) {
         if (!imagesEnabled) {
-            // Load a generic placeholder instead of performing network/disk read
-            // imageView.setImageResource(R.drawable.ic_placeholder);
-            imageView.setImageDrawable(null);
+            imageView.setImageResource(R.drawable.ic_image);
             return;
         }
         
-        // Normally use Glide or Picasso
-        // Glide.with(context).load(url).into(imageView);
+        Glide.with(context)
+             .load(url)
+             .placeholder(R.drawable.ic_image)
+             .error(R.drawable.ic_image)
+             .into(imageView);
     }
 }
