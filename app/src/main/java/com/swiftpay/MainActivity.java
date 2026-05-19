@@ -18,6 +18,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.swiftpay.data.preferences.SessionManager;
+import android.content.Context;
+import android.content.res.Configuration;
+import com.swiftpay.data.entity.UserPreferences;
+import com.swiftpay.data.db.SwiftPayDatabase;
+import com.swiftpay.util.ThemeManager;
 
 /**
  * Activity principal de SwiftPay. Host de navegación con DrawerLayout.
@@ -144,6 +149,8 @@ public class MainActivity extends AppCompatActivity
             if (navController != null) {
                 navController.navigate(R.id.loginFragment);
             }
+        } else if (itemId == R.id.nav_settings) {
+            if (navController != null) navController.navigate(R.id.settingsFragment);
         } else if (itemId == R.id.nav_profile) {
             if (navController != null) navController.navigate(R.id.profileFragment);
         } else if (itemId == R.id.userManagementFragment) {
@@ -187,3 +194,5 @@ public class MainActivity extends AppCompatActivity
         return sessionManager;
     }
 }
+
+

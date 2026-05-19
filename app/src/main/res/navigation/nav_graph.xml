@@ -251,6 +251,7 @@
     <action android:id="@+id/action_global_nav_discounts" app:destination="@id/discountListFragment" />
     <action android:id="@+id/action_global_nav_sales" app:destination="@id/saleListFragment" />
 
-</navigation>
+    <fragment android:id="@+id/settingsFragment" android:name="com.swiftpay.ui.settings.SettingsFragment" android:label="Configuración" />`n</navigation>
+
 
 
