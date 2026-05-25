@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/res/layout/fragment_event_list.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#f5f5f5">
+    android:padding="@dimen/margin_lateral"
+    android:background="?android:attr/colorBackground">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Eventos del Sistema"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:text="@string/events_title"
+        android:textAppearance="@style/TextAppearance.SwiftPay.TitleLarge"
+        android:textColor="@color/colorTextPrimary"
+        android:layout_marginBottom="@dimen/margin_lateral" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnMarkAll"
+        style="@style/Widget.SwiftPay.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Marcar todos como revisados"
-        android:layout_marginBottom="16dp"/>
+        android:text="@string/events_mark_all_reviewed"
+        android:layout_marginBottom="@dimen/margin_lateral"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEvents"

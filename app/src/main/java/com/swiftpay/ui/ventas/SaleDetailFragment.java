@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/ui/ventas/SaleDetailFragment.java
 package com.swiftpay.ui.ventas;
 
 import android.content.Intent;
@@ -33,7 +34,7 @@ import java.util.Locale;
 public class SaleDetailFragment extends Fragment {
 
     private SaleViewModel viewModel;
-    private long saleId = 1L; // Dummy
+    private long saleId = -1L;
     private Sale currentSale;
     private List<SaleItem> currentItems = new ArrayList<>();
 
@@ -47,6 +48,9 @@ public class SaleDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(SaleViewModel.class);
+        if (getArguments() != null) {
+            saleId = getArguments().getLong("saleId", -1L);
+        }
 
         TextView tvTotal = view.findViewById(R.id.tv_detail_total);
         MaterialButton btnCancel = view.findViewById(R.id.btn_cancel_sale);
@@ -92,6 +96,7 @@ public class SaleDetailFragment extends Fragment {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("application/pdf");
                     intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(Intent.createChooser(intent, "Compartir PDF"));
                 } catch (Exception e) {
                     Toast.makeText(requireContext(), "Error PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();

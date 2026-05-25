@@ -45,7 +45,7 @@
         android:name="com.swiftpay.ui.common.AccessDeniedFragment"
         android:label="@string/access_denied" />
 
-    <!-- Placeholder Dashboard para permitir navegación inicial -->
+    <!-- Placeholder Dashboard para permitir navegacion inicial -->
     <fragment
         android:id="@+id/nav_dashboard"
         android:name="com.swiftpay.ui.dashboard.DashboardFragment"
@@ -58,7 +58,7 @@
         android:name="com.swiftpay.ui.dashboard.EventListFragment"
         android:label="Eventos del Sistema" />
 
-    <!-- Catálogo de Productos y Marcas -->
+    <!-- Catalogo de Productos y Marcas -->
     <fragment
         android:id="@+id/productListFragment"
         android:name="com.swiftpay.ui.catalog.ProductListFragment"
@@ -83,7 +83,7 @@
     <fragment
         android:id="@+id/barcodeScannerFragment"
         android:name="com.swiftpay.ui.catalog.BarcodeScannerFragment"
-        android:label="Escáner" />
+        android:label="Escaner" />
 
     <!-- Clientes y Descuentos -->
     <fragment
@@ -148,8 +148,8 @@
         android:name="com.swiftpay.ui.ventas.SaleStatusHistoryFragment"
         android:label="Historial de Estados" />
 
-    <!-- Mapeo de IDs de menú a destinos futuros (Sprints 5+) -->
-    <!-- Módulos Sprint 6 Proveedores y Ordenes -->
+    <!-- Mapeo de IDs de menu a destinos futuros (Sprints 5+) -->
+    <!-- Modulos Sprint 6 Proveedores y Ordenes -->
     <fragment
         android:id="@+id/nav_suppliers"
         android:name="com.swiftpay.ui.proveedores.SupplierListFragment"
@@ -179,7 +179,7 @@
     <fragment
         android:id="@+id/nav_purchase_orders"
         android:name="com.swiftpay.ui.proveedores.PurchaseOrderListFragment"
-        android:label="Órdenes de Compra">
+        android:label="Ordenes de Compra">
         <action
             android:id="@+id/action_purchaseOrderList_to_purchaseOrderDetail"
             app:destination="@id/purchaseOrderDetailFragment" />
@@ -208,9 +208,9 @@
     <fragment
         android:id="@+id/purchaseOrderReceiveFragment"
         android:name="com.swiftpay.ui.proveedores.PurchaseOrderReceiveFragment"
-        android:label="Recepción Mercancía" />
+        android:label="Recepcion Mercancia" />
 
-    <!-- Destinos de Catálogo -->
+    <!-- Destinos de Catalogo -->
     <fragment
         android:id="@+id/productFormFragment"
         android:name="com.swiftpay.ui.catalog.ProductFormFragment"
@@ -219,7 +219,11 @@
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.swiftpay.ui.catalog.ProductDetailFragment"
-        android:label="Detalles de Producto" />
+        android:label="Detalles de Producto">
+        <action
+            android:id="@+id/action_productDetail_to_productForm"
+            app:destination="@id/productFormFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/brandFormFragment"
@@ -235,7 +239,11 @@
     <fragment
         android:id="@+id/clientDetailFragment"
         android:name="com.swiftpay.ui.clientes.ClientDetailFragment"
-        android:label="Detalles de Cliente" />
+        android:label="Detalles de Cliente">
+        <action
+            android:id="@+id/action_clientDetail_to_clientForm"
+            app:destination="@id/clientFormFragment" />
+    </fragment>
 
     <!-- Destinos de Descuentos -->
     <fragment
@@ -251,7 +259,7 @@
     <action android:id="@+id/action_global_nav_discounts" app:destination="@id/discountListFragment" />
     <action android:id="@+id/action_global_nav_sales" app:destination="@id/saleListFragment" />
 
-    <fragment android:id="@+id/settingsFragment" android:name="com.swiftpay.ui.settings.SettingsFragment" android:label="Configuraci�n" />`n</navigation>
-
+    <fragment android:id="@+id/settingsFragment" android:name="com.swiftpay.ui.settings.SettingsFragment" android:label="Configuracion" />
+</navigation>
 
 

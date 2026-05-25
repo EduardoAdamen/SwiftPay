@@ -1,12 +1,11 @@
+// app/src/main/java/com/swiftpay/ui/settings/SettingsFragment.java
 package com.swiftpay.ui.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.swiftpay.MainActivity;
 import com.swiftpay.R;
@@ -22,6 +22,16 @@ import com.swiftpay.data.entity.UserPreferences;
 import com.swiftpay.util.ThemeManager;
 import com.swiftpay.viewmodel.SettingsViewModel;
 
+/**
+ * Settings screen implementing UX-E1 (theme), UX-B7 (color scheme),
+ * UX-F1 (font size), UX-E2 (compact view), UX-F2 (accessibility),
+ * UX-C5 (images toggle) and UX-E4 (animations toggle).
+ *
+ * <p>Preferences are persisted in {@code user_preferences} via the ViewModel.
+ * After saving, the theme is applied immediately and the Activity is recreated
+ * exactly once so all font scale / color scheme changes take effect through
+ * {@link MainActivity#attachBaseContext(android.content.Context)}.</p>
+ */
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel viewModel;
@@ -42,14 +52,15 @@ public class SettingsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         currentUserId = ((MainActivity) requireActivity()).getSessionManager().getUserId();
 
@@ -60,7 +71,7 @@ public class SettingsFragment extends Fragment {
         switchAccessibility = view.findViewById(R.id.switchAccessibility);
         switchImages = view.findViewById(R.id.switchImages);
         switchAnimations = view.findViewById(R.id.switchAnimations);
-        Button btnSaveSettings = view.findViewById(R.id.btnSaveSettings);
+        MaterialButton btnSaveSettings = view.findViewById(R.id.btnSaveSettings);
 
         setupSpinners();
 
@@ -78,23 +89,36 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupSpinners() {
-        spinnerTheme.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, themeOptions));
-        spinnerColorScheme.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, colorOptions));
-        spinnerFontSize.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, fontOptions));
+        spinnerTheme.setAdapter(new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item, themeOptions));
+        spinnerColorScheme.setAdapter(new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item, colorOptions));
+        spinnerFontSize.setAdapter(new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item, fontOptions));
     }
 
     private void loadPrefsIntoUi(UserPreferences prefs) {
-        spinnerTheme.setSelection(java.util.Arrays.asList(themeOptions).indexOf(prefs.getThemeMode()));
-        spinnerColorScheme.setSelection(java.util.Arrays.asList(colorOptions).indexOf(prefs.getColorScheme()));
-        spinnerFontSize.setSelection(java.util.Arrays.asList(fontOptions).indexOf(prefs.getFontSize()));
+        spinnerTheme.setSelection(resolveIndex(themeOptions, prefs.getThemeMode(), "SYSTEM"));
+        spinnerColorScheme.setSelection(resolveIndex(colorOptions, prefs.getColorScheme(), "DEFAULT"));
+        spinnerFontSize.setSelection(resolveIndex(fontOptions, prefs.getFontSize(), "NORMAL"));
         switchCompactView.setChecked(prefs.getCompactView() == 1);
         switchAccessibility.setChecked(prefs.getAccessibilityMode() == 1);
         switchImages.setChecked(prefs.getImagesEnabled() == 1);
         switchAnimations.setChecked(prefs.getAnimationsEnabled() == 1);
     }
 
+    /**
+     * Persists user preferences, applies the night-mode toggle immediately
+     * via {@link ThemeManager#applyTheme(String)}, then recreates the Activity
+     * so that {@code attachBaseContext} picks up the new font scale and color
+     * scheme.  A single {@code recreate()} is sufficient because all other
+     * preference consumers (adapters for compact view, ImageLoader for images,
+     * nav options for animations) read the persisted value each time they bind.
+     */
     private void savePreferences() {
-        if (currentPrefs == null) return;
+        if (currentPrefs == null) {
+            return;
+        }
         currentPrefs.setThemeMode(themeOptions[spinnerTheme.getSelectedItemPosition()]);
         currentPrefs.setColorScheme(colorOptions[spinnerColorScheme.getSelectedItemPosition()]);
         currentPrefs.setFontSize(fontOptions[spinnerFontSize.getSelectedItemPosition()]);
@@ -104,15 +128,28 @@ public class SettingsFragment extends Fragment {
         currentPrefs.setAnimationsEnabled(switchAnimations.isChecked() ? 1 : 0);
 
         viewModel.saveUserPreferences(currentPrefs);
-        
-        Toast.makeText(getContext(), "Configuración guardada", Toast.LENGTH_SHORT).show();
-        
+
+        // Also save to a safe SharedPreferences file for MainActivity's attachBaseContext and onCreate
+        android.content.SharedPreferences uxPrefs = requireContext().getSharedPreferences("swiftpay_ux_prefs", android.content.Context.MODE_PRIVATE);
+        uxPrefs.edit()
+                .putString("font_size", currentPrefs.getFontSize())
+                .putString("color_scheme", currentPrefs.getColorScheme())
+                .apply();
+
+        Toast.makeText(getContext(), R.string.settings_save, Toast.LENGTH_SHORT).show();
+
+        // Apply the night-mode globally first — this may or may not trigger a
+        // config change depending on whether the mode actually changed.
         ThemeManager.applyTheme(currentPrefs.getThemeMode());
-        
-        // Restart app to apply complete theme changes (especially colors and fonts)
-        Intent intent = new Intent(requireActivity(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        requireActivity().finish();
+
+        // Single recreate to pick up font scale, color scheme and accessibility
+        // changes via attachBaseContext.
+        requireActivity().recreate();
+    }
+
+    private int resolveIndex(String[] values, String currentValue, String fallbackValue) {
+        String value = currentValue == null ? fallbackValue : currentValue;
+        int index = java.util.Arrays.asList(values).indexOf(value);
+        return Math.max(index, 0);
     }
 }

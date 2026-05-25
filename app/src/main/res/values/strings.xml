@@ -75,5 +75,47 @@
     <string name="btn_add_user">Nuevo Usuario</string>
     <string name="no_users">No hay usuarios registrados</string>
 
-    <string name="error_image_too_large">La imagen es demasiado grande. Máximo 5MB.</string>
-</resources>
+    <string name="error_image_too_large">La imagen es demasiado grande. Maximo 5MB.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_overview">Vision General</string>
+    <string name="dashboard_new_sales">Nuevas Ventas</string>
+    <string name="dashboard_new_clients">Nuevos Clientes</string>
+    <string name="dashboard_view_events">Ver Eventos Pendientes (0)</string>
+
+    <!-- Events -->
+    <string name="events_title">Eventos del Sistema</string>
+    <string name="events_mark_all_reviewed">Marcar todos como revisados</string>
+    <string name="events_mark_reviewed">Marcar Revisado</string>
+
+    <!-- Settings -->
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_color_scheme">Esquema de Color</string>
+    <string name="settings_font_size">Tamano de Fuente</string>
+    <string name="settings_compact_view">Vista Compacta en Listas</string>
+    <string name="settings_accessibility">Modo Accesibilidad (Botones grandes)</string>
+    <string name="settings_performance">Rendimiento y Datos</string>
+    <string name="settings_load_images">Cargar Imagenes (ahorro de datos)</string>
+    <string name="settings_animations">Animaciones y Transiciones</string>
+    <string name="settings_save">Guardar Configuracion y Reiniciar App</string>
+
+    <!-- Barcode Scanner -->
+    <string name="barcode_scanner_hint">Apunta la camara al codigo de barras</string>
+
+    <!-- Loading State -->
+    <string name="loading_state_loading">Cargando datos&#8230;</string>
+    <string name="loading_state_empty">No hay elementos para mostrar</string>
+    <string name="loading_state_error">Ocurrio un error al cargar los datos</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">Alertas de SwiftPay</string>
+    <string name="notification_channel_description">Alertas generales y notificaciones de sistema</string>
+    <string name="notification_reminder_title">Recordatorio SwiftPay</string>
+    <string name="notification_reminder_message">Revisa las novedades en el panel de control.</string>
+    <string name="notification_silence">Silenciar</string>
+
+    <!-- Optimistic Lock -->
+    <string name="optimistic_lock_title">Conflicto de edicion</string>
+    <string name="optimistic_lock_message">El producto fue modificado por otro usuario. Recarga la pantalla e intenta de nuevo.</string>
+</resources>

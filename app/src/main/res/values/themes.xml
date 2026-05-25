@@ -27,6 +27,38 @@
 
     <style name="Theme.SwiftPay" parent="Base.Theme.SwiftPay" />
 
+    <style name="ThemeOverlay.SwiftPay" parent="" />
+
+    <style name="ThemeOverlay.SwiftPay.Default">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.SwiftPay.Emerald">
+        <item name="colorPrimary">@color/colorEmeraldPrimary</item>
+        <item name="colorSecondary">@color/colorEmeraldAccent</item>
+        <item name="colorOnPrimary">@color/colorTextOnDark</item>
+    </style>
+
+    <style name="ThemeOverlay.SwiftPay.Purple">
+        <item name="colorPrimary">@color/colorPurplePrimary</item>
+        <item name="colorSecondary">@color/colorPurpleAccent</item>
+        <item name="colorOnPrimary">@color/colorTextOnDark</item>
+    </style>
+
+    <style name="ThemeOverlay.SwiftPay.Coral">
+        <item name="colorPrimary">@color/colorCoralPrimary</item>
+        <item name="colorSecondary">@color/colorCoralAccent</item>
+        <item name="colorOnPrimary">@color/colorTextOnDark</item>
+    </style>
+
+    <style name="ThemeOverlay.SwiftPay.Teal">
+        <item name="colorPrimary">@color/colorTealPrimary</item>
+        <item name="colorSecondary">@color/colorTealAccent</item>
+        <item name="colorOnPrimary">@color/colorTextOnDark</item>
+    </style>
+
     <!-- Shapes -->
     <style name="ShapeAppearance.SwiftPay.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerSize">@dimen/corner_radius_card</item>

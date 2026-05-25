@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/res/layout/fragment_dashboard.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#f5f5f5">
+    android:padding="@dimen/margin_lateral"
+    android:background="?android:attr/colorBackground">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visión General"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
+        android:text="@string/dashboard_overview"
+        android:textAppearance="@style/TextAppearance.SwiftPay.HeadlineSmall"
+        android:textColor="@color/colorTextPrimary"
+        android:layout_marginBottom="@dimen/margin_lateral"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,31 +26,31 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            android:layout_marginEnd="@dimen/spacing_elements"
+            style="@style/Widget.SwiftPay.CardView">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="@dimen/margin_lateral"
                 android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nuevas Ventas"
-                    android:textSize="14sp" />
+                    android:text="@string/dashboard_new_sales"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+                    android:textColor="@color/colorTextSecondary" />
 
                 <TextView
                     android:id="@+id/tvNewSalesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="32sp"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.DisplayLarge"
                     android:textStyle="bold"
-                    android:textColor="@color/design_default_color_primary"/>
+                    android:textColor="?attr/colorPrimary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -57,40 +58,41 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            android:layout_marginStart="@dimen/spacing_elements"
+            style="@style/Widget.SwiftPay.CardView">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="@dimen/margin_lateral"
                 android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nuevos Clientes"
-                    android:textSize="14sp" />
+                    android:text="@string/dashboard_new_clients"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+                    android:textColor="@color/colorTextSecondary" />
 
                 <TextView
                     android:id="@+id/tvNewClientsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="32sp"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.DisplayLarge"
                     android:textStyle="bold"
-                    android:textColor="@color/design_default_color_primary"/>
+                    android:textColor="?attr/colorPrimary"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnViewEvents"
+        style="@style/Widget.SwiftPay.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Ver Eventos Pendientes (0)" />
+        android:layout_marginTop="@dimen/spacing_sections"
+        android:text="@string/dashboard_view_events" />
 
 </LinearLayout>

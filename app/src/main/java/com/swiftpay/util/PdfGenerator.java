@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/util/PdfGenerator.java
 package com.swiftpay.util;
 
 import android.content.Context;
@@ -16,12 +17,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class PdfGenerator {
+/**
+ * Generates immutable sale receipt PDFs using the sale snapshot stored in Room.
+ */
+public final class PdfGenerator {
 
+    private PdfGenerator() {
+    }
+
+    /**
+     * Creates a PDF receipt under the app private files directory.
+     *
+     * @param context Android context used to resolve private storage
+     * @param sale persisted sale header
+     * @param items persisted sale item snapshots with unit and catalog prices
+     * @return generated receipt file
+     * @throws Exception when the PDF cannot be written
+     */
     public static File generateSaleReceipt(Context context, Sale sale, List<SaleItem> items) throws Exception {
         File dir = new File(context.getFilesDir(), "receipts");
-        if (!dir.exists()) {
-            dir.mkdirs();
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IllegalStateException("No se pudo crear el directorio de recibos");
         }
 
         File pdfFile = new File(dir, "venta_" + sale.getId() + ".pdf");
@@ -29,10 +45,10 @@ public class PdfGenerator {
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
-        // Header
         Paragraph title = new Paragraph("SwiftPay POS")
                 .setTextAlignment(TextAlignment.CENTER)
-                .setFontSize(24).setBold();
+                .setFontSize(24)
+                .setBold();
         document.add(title);
 
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DISPLAY, Locale.getDefault());
@@ -43,10 +59,9 @@ public class PdfGenerator {
         document.add(new Paragraph("Atendido por: Vendedor #" + sale.getSellerId()).setTextAlignment(TextAlignment.CENTER));
         document.add(new Paragraph("\n"));
 
-        // Items Table
         Table table = new Table(UnitValue.createPercentArray(new float[]{10, 50, 20, 20})).useAllAvailableWidth();
         table.addHeaderCell("Cant");
-        table.addHeaderCell("Descripción");
+        table.addHeaderCell("Descripcion");
         table.addHeaderCell("P.Unit");
         table.addHeaderCell("Subtotal");
 
@@ -54,13 +69,12 @@ public class PdfGenerator {
             table.addCell(String.valueOf(item.getQuantity()));
             table.addCell("Prod #" + item.getProductId());
             table.addCell(String.format(Locale.getDefault(), "$%.2f", item.getUnitPrice()));
-            double subtotal = item.getQuantity() * item.getUnitPrice();
-            table.addCell(String.format(Locale.getDefault(), "$%.2f", subtotal));
+            double itemSubtotal = item.getQuantity() * item.getUnitPrice();
+            table.addCell(String.format(Locale.getDefault(), "$%.2f", itemSubtotal));
         }
         document.add(table);
         document.add(new Paragraph("\n"));
 
-        // Totals
         document.add(new Paragraph(String.format(Locale.getDefault(), "Subtotal: $%.2f", sale.getSubtotal())).setTextAlignment(TextAlignment.RIGHT));
         if (sale.getDiscountPercentage() > 0) {
             document.add(new Paragraph(String.format(Locale.getDefault(), "Descuento (%.1f%%)", sale.getDiscountPercentage())).setTextAlignment(TextAlignment.RIGHT));
@@ -72,8 +86,7 @@ public class PdfGenerator {
             document.add(new Paragraph(String.format(Locale.getDefault(), "Cambio: $%.2f", sale.getChangeAmount())).setTextAlignment(TextAlignment.RIGHT));
         }
 
-        document.add(new Paragraph("\n\n¡Gracias por su compra!").setTextAlignment(TextAlignment.CENTER));
-
+        document.add(new Paragraph("\n\nGracias por su compra").setTextAlignment(TextAlignment.CENTER));
         document.close();
         return pdfFile;
     }

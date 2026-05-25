@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/ui/catalog/ProductListFragment.java
 package com.swiftpay.ui.catalog;
 
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.swiftpay.MainActivity;
 import com.swiftpay.R;
+import com.swiftpay.data.db.SwiftPayDatabase;
 import com.swiftpay.data.preferences.SessionManager;
+import com.swiftpay.data.repository.UserPreferencesRepository;
 import com.swiftpay.ui.adapter.ProductPagingAdapter;
 import com.swiftpay.viewmodel.ProductViewModel;
 
@@ -61,16 +64,33 @@ public class ProductListFragment extends Fragment {
             fabAdd.setVisibility(View.GONE);
         }
 
+        // Capture NavController once — using requireView() inside adapter callbacks
+        // can crash when the view is destroyed while Paging 3 is still diffing.
+        final androidx.navigation.NavController navController =
+                androidx.navigation.Navigation.findNavController(view);
+
         // Adapter
         adapter = new ProductPagingAdapter(product -> {
             // Navegar a detalle de producto
             Bundle bundle = new Bundle();
             bundle.putLong("productId", product.getId());
-            androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_productList_to_productDetail, bundle);
+            navController.navigate(R.id.action_productList_to_productDetail, bundle);
         });
+
         
         rvProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvProducts.setAdapter(adapter);
+        new UserPreferencesRepository(SwiftPayDatabase.getInstance(requireContext()))
+                .getByUserId(sessionManager.getUserId())
+                .observe(getViewLifecycleOwner(), prefs -> {
+                    if (prefs != null) {
+                        adapter.setImagesEnabled(prefs.getImagesEnabled() == 1);
+                        adapter.setCompactView(prefs.getCompactView() == 1);
+                        if (prefs.getAnimationsEnabled() == 0) {
+                            rvProducts.setItemAnimator(null);
+                        }
+                    }
+                });
 
         // Cargar datos
         if (sessionManager.hasRole("VENDEDOR")) {
@@ -82,14 +102,8 @@ public class ProductListFragment extends Fragment {
                 adapter.submitData(getLifecycle(), pagingData);
             });
         }
+        btnScan.setOnClickListener(v -> navController.navigate(R.id.barcodeScannerFragment));
 
-        // Escáner
-        btnScan.setOnClickListener(v -> {
-            // Implementar navegación a BarcodeScannerFragment
-            Toast.makeText(requireContext(), "Abriendo escáner...", Toast.LENGTH_SHORT).show();
-        });
 
-        // Búsqueda simple en local por ahora (idealmente sería una query separada)
-        // Por la limitación de la base, el filtrado Paging 3 se manejaría con Room y parámetros de búsqueda
     }
 }

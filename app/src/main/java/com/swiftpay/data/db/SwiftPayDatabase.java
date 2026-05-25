@@ -30,7 +30,7 @@ import com.swiftpay.data.entity.*;
                 AuditLog.class,
                 UserPreferences.class
         },
-        version = 1,
+        version = 2,
         exportSchema = true
 )
 @TypeConverters({Converters.class})
@@ -62,19 +62,27 @@ public abstract class SwiftPayDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (SwiftPayDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(
-                                    context.getApplicationContext(),
+                    final Context appContext = context.getApplicationContext();
+                    SwiftPayDatabase instance = Room.databaseBuilder(
+                                    appContext,
                                     SwiftPayDatabase.class,
                                     DATABASE_NAME)
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    DatabaseSeeder.seed(INSTANCE);
+                                    DatabaseSeeder.seed(db);
+                                }
+
+                                @Override
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                    super.onOpen(db);
+                                    DatabaseSeeder.seed(db);
                                 }
                             })
                             .fallbackToDestructiveMigration()
                             .build();
+                    INSTANCE = instance;
                 }
             }
         }

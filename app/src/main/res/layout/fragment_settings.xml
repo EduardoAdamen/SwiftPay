@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/res/layout/fragment_settings.xml -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="@dimen/margin_lateral"
     android:background="?android:attr/colorBackground">
 
     <LinearLayout
@@ -13,90 +14,105 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apariencia"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:text="@string/settings_appearance"
+            android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginTop="@dimen/spacing_elements"
+            android:layout_marginBottom="@dimen/spacing_elements"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tema" />
+            android:text="@string/settings_theme"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+            android:textColor="@color/colorTextSecondary" />
         <Spinner
             android:id="@+id/spinnerTheme"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Esquema de Color" />
+            android:text="@string/settings_color_scheme"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+            android:textColor="@color/colorTextSecondary" />
         <Spinner
             android:id="@+id/spinnerColorScheme"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tamaño de Fuente" />
+            android:text="@string/settings_font_size"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+            android:textColor="@color/colorTextSecondary" />
         <Spinner
             android:id="@+id/spinnerFontSize"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchCompactView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vista Compacta en Listas"
-            android:layout_marginBottom="12dp"/>
+            android:minHeight="@dimen/button_height"
+            android:text="@string/settings_compact_view"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchAccessibility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Modo Accesibilidad (Botones grandes)"
-            android:layout_marginBottom="12dp"/>
+            android:minHeight="@dimen/button_height"
+            android:text="@string/settings_accessibility"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#DDDDDD"
-            android:layout_marginVertical="12dp"/>
+            android:background="@color/colorDivider"
+            android:layout_marginVertical="@dimen/padding_card"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rendimiento y Datos"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"/>
+            android:text="@string/settings_performance"
+            android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginBottom="@dimen/spacing_elements"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchImages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cargar Imágenes (ahorro de datos)"
-            android:layout_marginBottom="12dp"/>
+            android:minHeight="@dimen/button_height"
+            android:text="@string/settings_load_images"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchAnimations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Animaciones y Transiciones"
-            android:layout_marginBottom="12dp"/>
+            android:minHeight="@dimen/button_height"
+            android:text="@string/settings_animations"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+            android:layout_marginBottom="@dimen/padding_card"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveSettings"
+            style="@style/Widget.SwiftPay.Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar Configuración y Reiniciar App"
-            android:layout_marginTop="24dp"/>
+            android:text="@string/settings_save"
+            android:layout_marginTop="@dimen/spacing_sections"/>
 
     </LinearLayout>
 </ScrollView>

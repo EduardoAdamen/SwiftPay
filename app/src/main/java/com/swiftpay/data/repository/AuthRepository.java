@@ -41,9 +41,15 @@ public class AuthRepository {
                 User user = db.userDao().getByUsername(username);
 
                 if (user == null) {
-                    callback.onResult(new LoginResult(false, null, "Usuario no encontrado"));
+                    int count = db.userDao().getCount();
+                    String errorMsg = "Usuario no encontrado. Total usuarios en BD: " + count;
+                    if (com.swiftpay.data.db.DatabaseSeeder.lastError != null) {
+                        errorMsg += " (Error semilla: " + com.swiftpay.data.db.DatabaseSeeder.lastError + ")";
+                    }
+                    callback.onResult(new LoginResult(false, null, errorMsg));
                     AuditLogger.log(context, null, "LOGIN_FAILED", "USER", null,
-                            "Usuario no encontrado: " + username);
+                            "Usuario no encontrado: " + username + ". Total: " + count + 
+                            (com.swiftpay.data.db.DatabaseSeeder.lastError != null ? " [SeedError: " + com.swiftpay.data.db.DatabaseSeeder.lastError + "]" : ""));
                     return;
                 }
 

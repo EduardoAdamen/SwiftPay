@@ -36,7 +36,10 @@ public class ProductViewModel extends AndroidViewModel {
     /** Obtiene el catálogo completo (para gestores/admin) */
     public LiveData<PagingData<Product>> getAllProductsPaged() {
         if (allPagedProducts == null) {
-            allPagedProducts = repository.getAllProductsPaged();
+            allPagedProducts = androidx.paging.PagingLiveData.cachedIn(
+                    repository.getAllProductsPaged(),
+                    androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+            );
         }
         return allPagedProducts;
     }
@@ -44,7 +47,10 @@ public class ProductViewModel extends AndroidViewModel {
     /** Obtiene solo los activos (para vendedores) */
     public LiveData<PagingData<Product>> getActiveProductsPaged() {
         if (activePagedProducts == null) {
-            activePagedProducts = repository.getActiveProductsPaged();
+            activePagedProducts = androidx.paging.PagingLiveData.cachedIn(
+                    repository.getActiveProductsPaged(),
+                    androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+            );
         }
         return activePagedProducts;
     }
@@ -79,6 +85,12 @@ public class ProductViewModel extends AndroidViewModel {
         } else {
             repository.updateProduct(product, userId, callback);
         }
+    }
+
+    /** Resets the success flag so it is not re-delivered on fragment re-entry. */
+    public void resetOperationSuccess() {
+        operationSuccess.setValue(null);
+        operationMessage.setValue(null);
     }
 
     public void deleteProduct(Product product, long adminUserId) {

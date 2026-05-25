@@ -32,4 +32,13 @@
     <color name="colorDivider">#424242</color>
     <color name="colorBorder">#616161</color>
     <color name="colorBorderFocus">#90CAF9</color>
+
+    <color name="colorEmeraldPrimary">#69DB7C</color>
+    <color name="colorEmeraldAccent">#38D9A9</color>
+    <color name="colorPurplePrimary">#B197FC</color>
+    <color name="colorPurpleAccent">#D0BFFF</color>
+    <color name="colorCoralPrimary">#FF8787</color>
+    <color name="colorCoralAccent">#FFA94D</color>
+    <color name="colorTealPrimary">#66D9E8</color>
+    <color name="colorTealAccent">#3BC9DB</color>
 </resources>

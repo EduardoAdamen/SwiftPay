@@ -1,8 +1,10 @@
-// com/swiftpay/data/entity/User.java
+// app/src/main/java/com/swiftpay/data/entity/User.java
 package com.swiftpay.data.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 /**
@@ -10,7 +12,7 @@ import androidx.room.PrimaryKey;
  * Cada usuario tiene un rol único, credenciales de acceso y puede tener
  * una foto de perfil almacenada localmente.
  */
-@Entity(tableName = "users")
+@Entity(tableName = "users", indices = @Index(value = "username", unique = true))
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -20,9 +22,11 @@ public class User {
     private String fullName;
 
     @ColumnInfo(name = "username")
+    @NonNull
     private String username;
 
     @ColumnInfo(name = "password_hash")
+    @NonNull
     private String passwordHash;
 
     @ColumnInfo(name = "role")
@@ -66,19 +70,21 @@ public class User {
         this.fullName = fullName;
     }
 
+    @NonNull
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(@NonNull String username) {
         this.username = username;
     }
 
+    @NonNull
     public String getPasswordHash() {
         return passwordHash;
     }
 
-    public void setPasswordHash(String passwordHash) {
+    public void setPasswordHash(@NonNull String passwordHash) {
         this.passwordHash = passwordHash;
     }
 

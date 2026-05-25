@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/ui/ventas/SaleStatusHistoryFragment.java
 package com.swiftpay.ui.ventas;
 
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.swiftpay.viewmodel.SaleViewModel;
 public class SaleStatusHistoryFragment extends Fragment {
     
     private SaleViewModel viewModel;
-    private long saleId = 1L; // Dummy for now
+    private long saleId = -1L;
     
     @Nullable
     @Override
@@ -30,6 +31,9 @@ public class SaleStatusHistoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         
         viewModel = new ViewModelProvider(this).get(SaleViewModel.class);
+        if (getArguments() != null) {
+            saleId = getArguments().getLong("saleId", -1L);
+        }
         
         RecyclerView rvHistory = view.findViewById(R.id.rv_status_history);
         SaleStatusHistoryAdapter adapter = new SaleStatusHistoryAdapter();

@@ -31,7 +31,10 @@ public class BrandViewModel extends AndroidViewModel {
 
     public LiveData<PagingData<Brand>> getPagedBrands() {
         if (pagedBrands == null) {
-            pagedBrands = repository.getAllBrandsPaged();
+            pagedBrands = androidx.paging.PagingLiveData.cachedIn(
+                    repository.getAllBrandsPaged(),
+                    androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+            );
         }
         return pagedBrands;
     }

@@ -46,6 +46,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".AlarmReceiver" android:exported="false" />`n    </application>
+        <receiver android:name=".AlarmReceiver" android:exported="false" />
+    </application>
 
 </manifest>

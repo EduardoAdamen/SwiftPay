@@ -1,10 +1,22 @@
+// app/src/main/java/com/swiftpay/util/ThemeManager.java
 package com.swiftpay.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import androidx.appcompat.app.AppCompatDelegate;
+import com.swiftpay.R;
+import java.util.Locale;
 
-public class ThemeManager {
+/**
+ * Applies SwiftPay runtime UX preferences for theme, color scheme and font scale.
+ */
+public final class ThemeManager {
 
+    private ThemeManager() {
+    }
+
+    /** Applies light, dark or system night mode immediately. */
     public static void applyTheme(String themeMode) {
         if ("LIGHT".equals(themeMode)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -15,11 +27,42 @@ public class ThemeManager {
         }
     }
 
-    // Colors applying would typically map to setting a theme resource ID on the Activity's context before setContentView
-    // Example logic to retrieve mapped style IDs when available:
+    /** Applies one of the five configured color schemes to an activity theme. */
+    public static void applyColorScheme(Activity activity, String colorScheme) {
+        activity.getTheme().applyStyle(getColorSchemeResId(colorScheme), true);
+    }
+
+    /** Returns the concrete style for DEFAULT, EMERALD, PURPLE, CORAL or TEAL. */
     public static int getColorSchemeResId(String colorScheme) {
-        // Here we'd map "EMERALD", "PURPLE", "CORAL", "TEAL" to R.style.Theme_SwiftPay_Emerald etc.
-        // Assuming R.style.Theme_SwiftPay as DEFAULT
-        return -1; // Placeholder for actual style resource resolution
+        String normalized = colorScheme == null ? "DEFAULT" : colorScheme.toUpperCase(Locale.ROOT);
+        switch (normalized) {
+            case "EMERALD":
+                return R.style.ThemeOverlay_SwiftPay_Emerald;
+            case "PURPLE":
+                return R.style.ThemeOverlay_SwiftPay_Purple;
+            case "CORAL":
+                return R.style.ThemeOverlay_SwiftPay_Coral;
+            case "TEAL":
+                return R.style.ThemeOverlay_SwiftPay_Teal;
+            case "DEFAULT":
+            default:
+                return R.style.ThemeOverlay_SwiftPay_Default;
+        }
+    }
+
+    /** Applies the configured font scale through Configuration. */
+    public static Context applyFontScale(Context context, String fontSize) {
+        float scale;
+        if ("SMALL".equals(fontSize)) {
+            scale = 0.85f;
+        } else if ("LARGE".equals(fontSize)) {
+            scale = 1.3f;
+        } else {
+            scale = 1.0f;
+        }
+
+        Configuration configuration = new Configuration(context.getResources().getConfiguration());
+        configuration.fontScale = scale;
+        return context.createConfigurationContext(configuration);
     }
 }

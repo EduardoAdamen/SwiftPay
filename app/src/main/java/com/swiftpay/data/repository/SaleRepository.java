@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/data/repository/SaleRepository.java
 package com.swiftpay.data.repository;
 
 import android.content.Context;
@@ -6,6 +7,7 @@ import androidx.paging.Pager;
 import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
 import androidx.paging.PagingLiveData;
+import androidx.room.Transaction;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 import com.swiftpay.data.db.SwiftPayDatabase;
 import com.swiftpay.data.entity.Sale;

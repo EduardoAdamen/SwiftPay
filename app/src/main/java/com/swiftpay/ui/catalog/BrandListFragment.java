@@ -50,11 +50,14 @@ public class BrandListFragment extends Fragment {
             return;
         }
 
+        final androidx.navigation.NavController navController =
+                androidx.navigation.Navigation.findNavController(view);
+
         // Adapter
         adapter = new BrandPagingAdapter(brand -> {
             Bundle bundle = new Bundle();
             bundle.putLong("brandId", brand.getId());
-            androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_brandList_to_brandForm, bundle);
+            navController.navigate(R.id.action_brandList_to_brandForm, bundle);
         });
 
         rvBrands.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -65,8 +68,6 @@ public class BrandListFragment extends Fragment {
             adapter.submitData(getLifecycle(), pagingData);
         });
 
-        fabAdd.setOnClickListener(v -> {
-            androidx.navigation.Navigation.findNavController(v).navigate(R.id.action_brandList_to_brandForm);
-        });
+        fabAdd.setOnClickListener(v -> navController.navigate(R.id.action_brandList_to_brandForm));
     }
 }

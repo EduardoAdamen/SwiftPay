@@ -30,5 +30,12 @@ public class DiscountFormFragment extends Fragment {
                  requireActivity().getOnBackPressedDispatcher().onBackPressed();
             });
         }
+
+        View cancelButton = view.findViewById(R.id.btn_cancel);
+        if (cancelButton != null) {
+            cancelButton.setOnClickListener(v -> {
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            });
+        }
     }
 }

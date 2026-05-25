@@ -8,6 +8,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.swiftpay.R;
 
 public class BrandFormFragment extends Fragment {
@@ -24,11 +26,18 @@ public class BrandFormFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Capture the NavController once — avoids double-navigation when
+        // onBackPressedDispatcher interacts with NavigationUI's own handler.
+        NavController navController = Navigation.findNavController(view);
+
         Button saveButton = view.findViewById(R.id.btn_save);
-        if(saveButton != null) {
-            saveButton.setOnClickListener(v -> {
-                requireActivity().getOnBackPressedDispatcher().onBackPressed();
-            });
+        if (saveButton != null) {
+            saveButton.setOnClickListener(v -> navController.navigateUp());
+        }
+
+        View cancelButton = view.findViewById(R.id.btn_cancel);
+        if (cancelButton != null) {
+            cancelButton.setOnClickListener(v -> navController.navigateUp());
         }
     }
 }

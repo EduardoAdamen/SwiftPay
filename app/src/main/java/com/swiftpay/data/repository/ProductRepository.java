@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/data/repository/ProductRepository.java
 package com.swiftpay.data.repository;
 
 import android.content.Context;
@@ -120,14 +121,15 @@ public class ProductRepository {
                 );
                 
                 if (rowsAffected == 0) {
-                    callback.onResult(false, "OPTIMISTIC_LOCK_ERROR");
-                    return;
+                    throw new OptimisticLockException("El producto fue modificado por otro usuario. Actualiza la pantalla y vuelve a intentar.");
                 }
                 
                 AuditLogger.log(context, userId, "UPDATE_PRODUCT", "PRODUCT", product.getId(), 
                         "Producto actualizado: " + product.getSku());
                 
                 callback.onResult(true, "Producto guardado exitosamente");
+            } catch (OptimisticLockException e) {
+                callback.onResult(false, e.getMessage());
             } catch (Exception e) {
                 callback.onResult(false, "Error: " + e.getMessage());
             }
@@ -163,5 +165,12 @@ public class ProductRepository {
     
     public interface GetProductCallback {
         void onResult(Product product);
+    }
+
+    /** Controlled exception for product optimistic locking conflicts. */
+    public static final class OptimisticLockException extends Exception {
+        public OptimisticLockException(String message) {
+            super(message);
+        }
     }
 }

@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/ui/adapter/ProductPagingAdapter.java
 package com.swiftpay.ui.adapter;
 
 import android.view.LayoutInflater;
@@ -9,19 +10,30 @@ import androidx.annotation.NonNull;
 import androidx.paging.PagingDataAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
 import com.swiftpay.R;
 import com.swiftpay.data.entity.Product;
 import com.swiftpay.util.CurrencyUtils;
-import java.io.File;
+import com.swiftpay.util.ImageLoader;
 
 public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagingAdapter.ProductViewHolder> {
 
     private final OnProductClickListener listener;
+    private boolean imagesEnabled = true;
+    private boolean compactView = false;
 
     public ProductPagingAdapter(OnProductClickListener listener) {
         super(DIFF_CALLBACK);
         this.listener = listener;
+    }
+
+    public void setImagesEnabled(boolean imagesEnabled) {
+        this.imagesEnabled = imagesEnabled;
+        notifyDataSetChanged();
+    }
+
+    public void setCompactView(boolean compactView) {
+        this.compactView = compactView;
+        notifyDataSetChanged();
     }
 
     private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
@@ -73,6 +85,9 @@ public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagi
             tvSku.setText("SKU: " + product.getSku());
             tvPrice.setText(CurrencyUtils.format(product.getPrice()));
             tvStock.setText("Stock: " + product.getStock());
+            itemView.setMinimumHeight(itemView.getResources().getDimensionPixelSize(
+                    compactView ? R.dimen.list_item_compact_height : R.dimen.list_item_height));
+            tvSku.setVisibility(compactView ? View.GONE : View.VISIBLE);
 
             if (product.getStock() <= 5) {
                 tvStock.setTextColor(itemView.getContext().getColor(R.color.colorWarning));
@@ -80,20 +95,10 @@ public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagi
                 tvStock.setTextColor(itemView.getContext().getColor(R.color.colorTextSecondary));
             }
 
-            // Cargar imagen con Glide
             if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
-                File imgFile = new File(itemView.getContext().getFilesDir(), product.getImagePath());
-                Glide.with(itemView.getContext())
-                        .load(imgFile)
-                        .placeholder(R.drawable.ic_image)
-                        .error(R.drawable.ic_image)
-                        .centerCrop()
-                        .into(ivImage);
+                ImageLoader.loadLocalImage(itemView.getContext(), product.getImagePath(), ivImage, imagesEnabled);
             } else {
-                Glide.with(itemView.getContext())
-                        .load(R.drawable.ic_inventory_2)
-                        .centerInside()
-                        .into(ivImage);
+                ivImage.setImageResource(R.drawable.ic_image);
             }
 
             itemView.setOnClickListener(v -> {

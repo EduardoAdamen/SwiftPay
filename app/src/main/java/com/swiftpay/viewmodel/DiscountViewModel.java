@@ -31,7 +31,10 @@ public class DiscountViewModel extends AndroidViewModel {
 
     public LiveData<PagingData<DiscountCode>> getAllDiscountsPaged() {
         if (pagedDiscounts == null) {
-            pagedDiscounts = repository.getAllDiscountsPaged();
+            pagedDiscounts = androidx.paging.PagingLiveData.cachedIn(
+                    repository.getAllDiscountsPaged(),
+                    androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+            );
         }
         return pagedDiscounts;
     }

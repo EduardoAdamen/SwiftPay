@@ -1,122 +1,102 @@
 package com.swiftpay.data.db;
 
 import android.util.Log;
-import com.swiftpay.data.entity.User;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.swiftpay.util.PasswordUtils;
-import java.util.concurrent.Executors;
 
 /**
- * Clase encargada de insertar datos iniciales en la base de datos.
- * Se ejecuta �nicamente en la primera creaci�n de la BD (onCreate).
+ * Inserta datos iniciales en la BD usando SQL directo sobre {@link SupportSQLiteDatabase}.
+ *
+ * POR QUÉ NO SE USAN LOS DAOs DE ROOM AQUÍ:
+ * El callback {@link androidx.room.RoomDatabase.Callback#onCreate} es invocado desde
+ * dentro de {@code SQLiteOpenHelper.getWritableDatabase()}. Si desde ahí se llaman
+ * DAOs de Room, éstos intentan llamar {@code getWritableDatabase()} de nuevo en el
+ * mismo hilo, lo que lanza {@code IllegalStateException: getWritableDatabase called
+ * recursively}. Esa excepción es capturada silenciosamente y el admin NUNCA se inserta.
+ *
+ * La solución correcta es usar {@code db.execSQL()} directamente con el parámetro
+ * {@link SupportSQLiteDatabase} que Room ya provee en el callback.
  */
 public class DatabaseSeeder {
 
     private static final String TAG = "DatabaseSeeder";
+    public static volatile String lastError = null;
 
     /**
-     * Inserta el usuario administrador por defecto.
-     * username: admin, password: Admin1234
+     * Inserta todos los datos iniciales. Se llama desde {@code onCreate(SupportSQLiteDatabase)}.
+     * Es síncrono y seguro — no recurre a getWritableDatabase().
      */
-    public static void seed(SwiftPayDatabase db) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            try {
-                // Verificar si ya existe un admin
-                User existing = db.userDao().getByUsername("admin");
-                if (existing != null) {
-                    Log.d(TAG, "Admin user already exists, skipping seed");
-                    return;
-                }
-
-                long now = System.currentTimeMillis();
-                User admin = new User();
-                admin.setFullName("Administrador del Sistema");
-                admin.setUsername("admin");
-                admin.setPasswordHash(PasswordUtils.hashPassword("Admin1234"));
-                admin.setRole("ADMINISTRADOR");
-                admin.setIsActive(1);
-                admin.setIsTemporaryPassword(1);
-                admin.setCreatedAt(now);
-                admin.setUpdatedAt(now);
-
-                db.userDao().insert(admin);
-                Log.d(TAG, "Admin user seeded successfully");
-
-                // Seed Sprint 2: Marcas
-                if (db.brandDao().getAllPaged() != null && db.brandDao().getByIdSync(1) == null) {
-                    com.swiftpay.data.entity.Brand b1 = new com.swiftpay.data.entity.Brand(); b1.setName("Coca-Cola"); b1.setCreatedAt(now); db.brandDao().insert(b1);
-                    com.swiftpay.data.entity.Brand b2 = new com.swiftpay.data.entity.Brand(); b2.setName("Bimbo"); b2.setCreatedAt(now); db.brandDao().insert(b2);
-                    com.swiftpay.data.entity.Brand b3 = new com.swiftpay.data.entity.Brand(); b3.setName("Sabritas"); b3.setCreatedAt(now); db.brandDao().insert(b3);
-
-                    // Seed Sprint 2: Categor�as de Producto
-                    com.swiftpay.data.entity.ProductCategory c1 = new com.swiftpay.data.entity.ProductCategory(); c1.setName("Bebidas"); c1.setCreatedAt(now); db.productCategoryDao().insert(c1);
-                    com.swiftpay.data.entity.ProductCategory c2 = new com.swiftpay.data.entity.ProductCategory(); c2.setName("Botanas"); c2.setCreatedAt(now); db.productCategoryDao().insert(c2);
-
-                    // Seed Sprint 2: Productos
-                    com.swiftpay.data.entity.Product p1 = new com.swiftpay.data.entity.Product(); p1.setSku("7501055310883"); p1.setName("Coca-Cola 600ml"); p1.setPrice(18.0); p1.setStock(50); p1.setCategoryId(1L); p1.setBrandId(1L); p1.setIsActive(1); p1.setVersion(1); p1.setCreatedAt(now); p1.setUpdatedAt(now); db.productDao().insert(p1);
-                    com.swiftpay.data.entity.Product p2 = new com.swiftpay.data.entity.Product(); p2.setSku("7501000111201"); p2.setName("Pan Blanco Bimbo"); p2.setPrice(45.0); p2.setStock(20); p2.setCategoryId(2L); p2.setBrandId(2L); p2.setIsActive(1); p2.setVersion(1); p2.setCreatedAt(now); p2.setUpdatedAt(now); db.productDao().insert(p2);
-                    com.swiftpay.data.entity.Product p3 = new com.swiftpay.data.entity.Product(); p3.setSku("7501011131133"); p3.setName("Doritos Nacho"); p3.setPrice(16.0); p3.setStock(30); p3.setCategoryId(2L); p3.setBrandId(3L); p3.setIsActive(1); p3.setVersion(1); p3.setCreatedAt(now); p3.setUpdatedAt(now); db.productDao().insert(p3);
-                    com.swiftpay.data.entity.Product p4 = new com.swiftpay.data.entity.Product(); p4.setSku("7501055300075"); p4.setName("Sprite 600ml"); p4.setPrice(18.0); p4.setStock(40); p4.setCategoryId(1L); p4.setBrandId(1L); p4.setIsActive(1); p4.setVersion(1); p4.setCreatedAt(now); p4.setUpdatedAt(now); db.productDao().insert(p4);
-                    com.swiftpay.data.entity.Product p5 = new com.swiftpay.data.entity.Product(); p5.setSku("7501011111111"); p5.setName("Cheetos Torciditos"); p5.setPrice(15.0); p5.setStock(35); p5.setCategoryId(2L); p5.setBrandId(3L); p5.setIsActive(1); p5.setVersion(1); p5.setCreatedAt(now); p5.setUpdatedAt(now); db.productDao().insert(p5);
-                    // Seed Sprint 3: Client Categories
-                    if (db.clientCategoryDao().getByIdSync(1) == null) {
-                        com.swiftpay.data.entity.ClientCategory cc1 = new com.swiftpay.data.entity.ClientCategory(); cc1.setName("Mayorista"); cc1.setCreatedAt(now); db.clientCategoryDao().insert(cc1);
-                        com.swiftpay.data.entity.ClientCategory cc2 = new com.swiftpay.data.entity.ClientCategory(); cc2.setName("Minorista"); cc2.setCreatedAt(now); db.clientCategoryDao().insert(cc2);
-                        com.swiftpay.data.entity.ClientCategory cc3 = new com.swiftpay.data.entity.ClientCategory(); cc3.setName("VIP"); cc3.setCreatedAt(now); db.clientCategoryDao().insert(cc3);
-                        
-                        // Seed Sprint 3: Clients
-                        com.swiftpay.data.entity.Client cl1 = new com.swiftpay.data.entity.Client(); cl1.setFullName("Juan P�rez"); cl1.setEmail("juan@example.com"); cl1.setPhone("5512345678"); cl1.setRfc("PEPJ800101XYZ"); cl1.setCategoryId(1L); cl1.setIsActive(1); cl1.setCreatedAt(now); cl1.setUpdatedAt(now); db.clientDao().insert(cl1);
-                        com.swiftpay.data.entity.Client cl2 = new com.swiftpay.data.entity.Client(); cl2.setFullName("Mar�a G�mez"); cl2.setEmail("maria@example.com"); cl2.setPhone("5598765432"); cl2.setCategoryId(2L); cl2.setIsActive(1); cl2.setCreatedAt(now); cl2.setUpdatedAt(now); db.clientDao().insert(cl2);
-                        com.swiftpay.data.entity.Client cl3 = new com.swiftpay.data.entity.Client(); cl3.setFullName("Carlos Ruiz"); cl3.setPhone("5544332211"); cl3.setCategoryId(3L); cl3.setIsActive(1); cl3.setCreatedAt(now); cl3.setUpdatedAt(now); db.clientDao().insert(cl3);
-                        com.swiftpay.data.entity.Client cl4 = new com.swiftpay.data.entity.Client(); cl4.setFullName("Ana L�pez"); cl4.setCategoryId(2L); cl4.setIsActive(1); cl4.setCreatedAt(now); cl4.setUpdatedAt(now); db.clientDao().insert(cl4);
-                        com.swiftpay.data.entity.Client cl5 = new com.swiftpay.data.entity.Client(); cl5.setFullName("Pedro D�az"); cl5.setPhone("5566778899"); cl5.setCategoryId(1L); cl5.setIsActive(0); cl5.setCreatedAt(now); cl5.setUpdatedAt(now); db.clientDao().insert(cl5);
-                        
-                        // Seed Sprint 3: Discounts (1 active valid, 1 active expired, 1 inactive)
-                        com.swiftpay.data.entity.DiscountCode dc1 = new com.swiftpay.data.entity.DiscountCode(); dc1.setCode("VERANO20"); dc1.setDiscountPercentage(20.0); dc1.setExpirationDate(now + 30L * 24 * 60 * 60 * 1000); dc1.setIsActive(1); dc1.setCreatedAt(now); dc1.setUpdatedAt(now); db.discountCodeDao().insert(dc1);
-                        com.swiftpay.data.entity.DiscountCode dc2 = new com.swiftpay.data.entity.DiscountCode(); dc2.setCode("EXPIRADO10"); dc2.setDiscountPercentage(10.0); dc2.setExpirationDate(now - 24L * 60 * 60 * 1000); dc2.setIsActive(1); dc2.setCreatedAt(now); dc2.setUpdatedAt(now); db.discountCodeDao().insert(dc2);
-                        com.swiftpay.data.entity.DiscountCode dc3 = new com.swiftpay.data.entity.DiscountCode(); dc3.setCode("INACTIVO50"); dc3.setDiscountPercentage(50.0); dc3.setExpirationDate(now + 30L * 24 * 60 * 60 * 1000); dc3.setIsActive(0); dc3.setCreatedAt(now); dc3.setUpdatedAt(now); db.discountCodeDao().insert(dc3);
-                        Log.d(TAG, "Sprint 3 dummy data seeded successfully");
-                        
-                        // Seed Proveedores y Órdenes de Compra
-                        if (db.supplierDao().getByIdSync(1) == null) {
-                            com.swiftpay.data.entity.Supplier s1 = new com.swiftpay.data.entity.Supplier();
-                            s1.setName("Distribuidora Mexicana");
-                            s1.setPhone("5512345678");
-                            s1.setEmail("ventas@distmex.com");
-                            s1.setNotes("Proveedor principal de abarrotes");
-                            s1.setCreatedAt(now);
-                            s1.setUpdatedAt(now);
-                            db.supplierDao().insert(s1);
-
-                            com.swiftpay.data.entity.PurchaseOrder po = new com.swiftpay.data.entity.PurchaseOrder();
-                            po.setSupplierId(1L);
-                            po.setTotal(5000.0);
-                            po.setStatus("COMPLETADA");
-                            po.setCreatedAt(now);
-                            // No tiene setUpdatedAt ni setOrderDate
-                            db.purchaseOrderDao().insert(po);
-                            Log.d(TAG, "Proveedores y Órdenes seeded successfully");
-                        }
-
-                        // Seed Ventas
-                        if (db.saleDao().getByIdSync(1) == null) {
-                            com.swiftpay.data.entity.Sale sale = new com.swiftpay.data.entity.Sale();
-                            sale.setSellerId(1L); // sellerId y no userId
-                            sale.setClientId(1L);
-                            sale.setTotal(150.0);
-                            sale.setSubtotal(130.0);
-                            // No tiene setTax
-                            sale.setPaymentMethod("EFECTIVO");
-                            sale.setStatus("PAGADA");
-                            sale.setCreatedAt(now);
-                            sale.setUpdatedAt(now);
-                            db.saleDao().insert(sale);
-                            Log.d(TAG, "Ventas seeded successfully");
-                        }
+    public static void seed(SupportSQLiteDatabase db) {
+        try {
+            // Verificar si el usuario administrador ya existe para evitar re-sembrar y duplicados
+            android.database.Cursor cursor = db.query("SELECT COUNT(*) FROM users WHERE username = 'admin'", new Object[0]);
+            if (cursor != null) {
+                try {
+                    if (cursor.moveToFirst() && cursor.getInt(0) > 0) {
+                        Log.d(TAG, "Admin user already exists, skipping database seeding");
+                        return;
                     }
+                } finally {
+                    cursor.close();
                 }
-            } catch (Exception e) {
-                Log.e(TAG, "Error seeding database", e);
             }
-        });
+
+            long now = System.currentTimeMillis();
+
+            // ── Usuario Admin ──────────────────────────────────────────────
+            String hash = PasswordUtils.hashPassword("Admin1234");
+            db.execSQL("INSERT OR IGNORE INTO users " +
+                    "(full_name, username, password_hash, role, is_active, is_temporary_password, created_at, updated_at) " +
+                    "VALUES ('Administrador del Sistema','admin','" + hash + "','ADMINISTRADOR',1,1," + now + "," + now + ")");
+            Log.d(TAG, "Admin user seeded");
+
+            // ── Marcas ─────────────────────────────────────────────────────
+            db.execSQL("INSERT OR IGNORE INTO brands (name, description, created_at, updated_at) VALUES ('Coca-Cola', NULL," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO brands (name, description, created_at, updated_at) VALUES ('Bimbo', NULL," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO brands (name, description, created_at, updated_at) VALUES ('Sabritas', NULL," + now + "," + now + ")");
+
+            // ── Categorías de Producto ─────────────────────────────────────
+            db.execSQL("INSERT OR IGNORE INTO product_categories (name, description, created_at) VALUES ('Bebidas', NULL," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO product_categories (name, description, created_at) VALUES ('Botanas', NULL," + now + ")");
+
+            // ── Productos ──────────────────────────────────────────────────
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501055310883','Coca-Cola 600ml',18.0,50,1,1,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501000111201','Pan Blanco Bimbo',45.0,20,2,2,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501011131133','Doritos Nacho',16.0,30,2,3,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501055300075','Sprite 600ml',18.0,40,1,1,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501011111111','Cheetos Torciditos',15.0,35,2,3,1,1," + now + "," + now + ")");
+
+            // ── Categorías de Cliente ──────────────────────────────────────
+            db.execSQL("INSERT OR IGNORE INTO client_categories (name, description, created_at) VALUES ('Mayorista', NULL," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO client_categories (name, description, created_at) VALUES ('Minorista', NULL," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO client_categories (name, description, created_at) VALUES ('VIP', NULL," + now + ")");
+
+            // ── Clientes ───────────────────────────────────────────────────
+            db.execSQL("INSERT INTO clients (full_name, phone, email, rfc, category_id, notes, is_active, created_at, updated_at) VALUES ('Juan Perez','5512345678','juan@example.com','PEPJ800101XYZ',1,NULL,1," + now + "," + now + ")");
+            db.execSQL("INSERT INTO clients (full_name, phone, email, rfc, category_id, notes, is_active, created_at, updated_at) VALUES ('Maria Gomez','5598765432','maria@example.com',NULL,2,NULL,1," + now + "," + now + ")");
+            db.execSQL("INSERT INTO clients (full_name, phone, email, rfc, category_id, notes, is_active, created_at, updated_at) VALUES ('Carlos Ruiz','5544332211',NULL,NULL,3,NULL,1," + now + "," + now + ")");
+            db.execSQL("INSERT INTO clients (full_name, phone, email, rfc, category_id, notes, is_active, created_at, updated_at) VALUES ('Ana Lopez',NULL,NULL,NULL,2,NULL,1," + now + "," + now + ")");
+            db.execSQL("INSERT INTO clients (full_name, phone, email, rfc, category_id, notes, is_active, created_at, updated_at) VALUES ('Pedro Diaz','5566778899',NULL,NULL,1,NULL,0," + now + "," + now + ")");
+
+            // ── Códigos de Descuento ───────────────────────────────────────
+            long plus30d = now + 30L * 24 * 60 * 60 * 1000;
+            long minus1d = now - 24L * 60 * 60 * 1000;
+            db.execSQL("INSERT OR IGNORE INTO discount_codes (code, discount_percentage, expiration_date, is_active, created_at, updated_at) VALUES ('VERANO20',20.0," + plus30d + ",1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO discount_codes (code, discount_percentage, expiration_date, is_active, created_at, updated_at) VALUES ('EXPIRADO10',10.0," + minus1d + ",1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO discount_codes (code, discount_percentage, expiration_date, is_active, created_at, updated_at) VALUES ('INACTIVO50',50.0," + plus30d + ",0," + now + "," + now + ")");
+
+            // ── Proveedor y Orden de Compra ────────────────────────────────
+            db.execSQL("INSERT INTO suppliers (name, rfc, phone, email, notes, created_at, updated_at) VALUES ('Distribuidora Mexicana',NULL,'5512345678','ventas@distmex.com','Proveedor principal de abarrotes'," + now + "," + now + ")");
+            db.execSQL("INSERT INTO purchase_orders (supplier_id, total, status, created_at, received_at) VALUES (1,5000.0,'COMPLETADA'," + now + ",NULL)");
+
+            // ── Venta de Ejemplo ───────────────────────────────────────────
+            db.execSQL("INSERT INTO sales (client_id, seller_id, subtotal, discount_percentage, discount_code_id, total, payment_method, amount_received, change_amount, status, cash_register_id, created_at, updated_at) VALUES (1,1,130.0,0.0,NULL,150.0,'EFECTIVO',0.0,0.0,'PAGADA',NULL," + now + "," + now + ")");
+
+            Log.d(TAG, "Database seeded successfully");
+
+        } catch (Exception e) {
+            lastError = e.getMessage() != null ? e.getMessage() : e.toString();
+            Log.e(TAG, "Error seeding database", e);
+        }
     }
 }

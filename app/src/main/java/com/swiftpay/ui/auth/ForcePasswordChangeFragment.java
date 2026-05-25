@@ -1,3 +1,4 @@
+// app/src/main/java/com/swiftpay/ui/auth/ForcePasswordChangeFragment.java
 package com.swiftpay.ui.auth;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
@@ -54,8 +56,13 @@ public class ForcePasswordChangeFragment extends Fragment {
         viewModel.getOperationSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success != null && success) {
                 Toast.makeText(requireContext(), R.string.password_changed_success, Toast.LENGTH_SHORT).show();
-                // Navegar al dashboard
-                ((MainActivity) requireActivity()).getNavController().navigate(R.id.nav_dashboard);
+                SessionManager session = ((MainActivity) requireActivity()).getSessionManager();
+                session.markTemporaryPasswordResolved();
+                ((MainActivity) requireActivity()).setDrawerLocked(false);
+                NavOptions options = new NavOptions.Builder()
+                        .setPopUpTo(R.id.nav_graph, true)
+                        .build();
+                ((MainActivity) requireActivity()).getNavController().navigate(R.id.nav_dashboard, null, options);
             }
         });
 
