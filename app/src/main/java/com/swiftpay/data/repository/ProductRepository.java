@@ -51,6 +51,13 @@ public class ProductRepository {
     }
 
     /**
+     * Lista completa de productos activos (para ventas / selección rápida).
+     */
+    public LiveData<java.util.List<Product>> getActiveProducts() {
+        return db.productDao().getAllActive();
+    }
+
+    /**
      * Obtiene un producto por ID reactivamente.
      */
     public LiveData<Product> getProductById(long id) {
@@ -114,6 +121,7 @@ public class ProductRepository {
                         product.getStock(),
                         product.getCategoryId(),
                         product.getBrandId(),
+                        product.getSupplierId(),
                         product.getImagePath(),
                         product.getIsActive(),
                         now,
@@ -159,12 +167,37 @@ public class ProductRepository {
         });
     }
 
+    /**
+     * Obtiene productos activos por proveedor (para órdenes de compra).
+     */
+    public LiveData<java.util.List<Product>> getActiveProductsBySupplier(long supplierId) {
+        return db.productDao().getActiveBySupplier(supplierId);
+    }
+
+    /**
+     * Obtiene productos activos por proveedor síncronamente en un thread de fondo.
+     */
+    public void getActiveProductsBySupplierSync(long supplierId, GetProductsCallback callback) {
+        executor.execute(() -> {
+            try {
+                java.util.List<Product> products = db.productDao().getActiveBySupplierSync(supplierId);
+                callback.onResult(products);
+            } catch (Exception e) {
+                callback.onResult(null);
+            }
+        });
+    }
+
     public interface OperationCallback {
         void onResult(boolean success, String message);
     }
     
     public interface GetProductCallback {
         void onResult(Product product);
+    }
+
+    public interface GetProductsCallback {
+        void onResult(java.util.List<Product> products);
     }
 
     /** Controlled exception for product optimistic locking conflicts. */

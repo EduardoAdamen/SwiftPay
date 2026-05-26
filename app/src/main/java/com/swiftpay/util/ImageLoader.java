@@ -41,10 +41,31 @@ public final class ImageLoader {
 
         File imageFile = new File(context.getFilesDir(), relativePath);
         Glide.with(context)
-                .load(imageFile)
+                .load(imageFile.getAbsolutePath())
                 .placeholder(R.drawable.ic_image)
                 .error(R.drawable.ic_image)
+                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
                 .centerCrop()
+                .into(imageView);
+    }
+    public static void loadLocalProfileImage(Context context, String relativePath, ImageView imageView, boolean imagesEnabled) {
+        if (!imagesEnabled) {
+            imageView.setImageResource(R.drawable.ic_account_circle);
+            return;
+        }
+
+        if (relativePath == null || relativePath.trim().isEmpty()) {
+            imageView.setImageResource(R.drawable.ic_account_circle);
+            return;
+        }
+
+        File imageFile = new File(context.getFilesDir(), relativePath);
+        Glide.with(context)
+                .load(imageFile.getAbsolutePath())
+                .placeholder(R.drawable.ic_account_circle)
+                .error(R.drawable.ic_account_circle)
+                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL)
+                .circleCrop()
                 .into(imageView);
     }
 }

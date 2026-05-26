@@ -45,9 +45,13 @@ public class BrandListFragment extends Fragment {
         FloatingActionButton fabAdd = view.findViewById(R.id.fab_add_brand);
 
         // Seguridad
-        if (!sessionManager.hasRole("ADMINISTRADOR") && !sessionManager.hasRole("GESTOR_PRODUCTOS")) {
+        if (!sessionManager.hasRole("ADMINISTRADOR") && !sessionManager.hasRole("GESTOR_PRODUCTOS") && !sessionManager.hasRole("VENDEDOR")) {
             ((MainActivity) requireActivity()).getNavController().navigate(R.id.accessDeniedFragment);
             return;
+        }
+
+        if (sessionManager.hasRole("VENDEDOR") && !sessionManager.hasRole("ADMINISTRADOR") && !sessionManager.hasRole("GESTOR_PRODUCTOS")) {
+            fabAdd.setVisibility(View.GONE);
         }
 
         final androidx.navigation.NavController navController =
@@ -55,9 +59,8 @@ public class BrandListFragment extends Fragment {
 
         // Adapter
         adapter = new BrandPagingAdapter(brand -> {
-            Bundle bundle = new Bundle();
-            bundle.putLong("brandId", brand.getId());
-            navController.navigate(R.id.action_brandList_to_brandForm, bundle);
+            // El usuario solicitó que no pase nada al tocar una marca.
+            // Tampoco se debe mostrar el toast de "Solo lectura".
         });
 
         rvBrands.setLayoutManager(new LinearLayoutManager(requireContext()));

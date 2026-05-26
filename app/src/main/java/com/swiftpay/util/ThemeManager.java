@@ -4,6 +4,12 @@ package com.swiftpay.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.swiftpay.R;
 import java.util.Locale;
@@ -64,5 +70,76 @@ public final class ThemeManager {
         Configuration configuration = new Configuration(context.getResources().getConfiguration());
         configuration.fontScale = scale;
         return context.createConfigurationContext(configuration);
+    }
+
+    /** Applies the user-selected wallpaper (UX-E3) to the main DrawerLayout if present. */
+    public static void applyWallpaper(Activity activity, String wallpaperUriString) {
+        if (activity == null) return;
+        View root = activity.findViewById(R.id.drawer_layout);
+        if (root == null) return;
+
+        if (wallpaperUriString == null || wallpaperUriString.trim().isEmpty()) {
+            root.setBackground(null);
+            return;
+        }
+        try {
+            Uri uri = Uri.parse(wallpaperUriString);
+            try (java.io.InputStream in = activity.getContentResolver().openInputStream(uri)) {
+                if (in == null) {
+                    root.setBackground(null);
+                    return;
+                }
+                Bitmap bmp = BitmapFactory.decodeStream(in);
+                if (bmp == null) {
+                    root.setBackground(null);
+                    return;
+                }
+                BitmapDrawable drawable = new BitmapDrawable(activity.getResources(), bmp);
+                drawable.setTileModeXY(android.graphics.Shader.TileMode.CLAMP, android.graphics.Shader.TileMode.CLAMP);
+                root.setBackground(drawable);
+            }
+        } catch (Exception e) {
+            root.setBackground(null);
+        }
+    }
+
+    /**
+     * Applies accessibility sizing (UX-F2) by increasing minimum heights of touch targets.
+     * This is a best-effort runtime pass; it complements font scaling.
+     */
+    public static void applyAccessibilitySizing(Activity activity, boolean enabled) {
+        if (activity == null) return;
+        View root = activity.getWindow() != null ? activity.getWindow().getDecorView() : null;
+        if (root == null) return;
+        applyAccessibilityRecursive(root, enabled, dpToPx(activity, 56));
+    }
+
+    private static void applyAccessibilityRecursive(View view, boolean enabled, int minHeightPx) {
+        if (view == null) return;
+
+        if (view instanceof android.widget.Button
+                || view instanceof com.google.android.material.button.MaterialButton
+                || view instanceof com.google.android.material.switchmaterial.SwitchMaterial) {
+            if (enabled) {
+                view.setMinimumHeight(minHeightPx);
+                view.setPadding(
+                        Math.max(view.getPaddingLeft(), minHeightPx / 6),
+                        Math.max(view.getPaddingTop(), minHeightPx / 6),
+                        Math.max(view.getPaddingRight(), minHeightPx / 6),
+                        Math.max(view.getPaddingBottom(), minHeightPx / 6)
+                );
+            }
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                applyAccessibilityRecursive(vg.getChildAt(i), enabled, minHeightPx);
+            }
+        }
+    }
+
+    private static int dpToPx(Context context, int dp) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
     }
 }

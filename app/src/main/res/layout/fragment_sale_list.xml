@@ -54,4 +54,15 @@
             android:paddingVertical="@dimen/spacing_elements" />
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_new_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:contentDescription="Nueva Venta"
+        android:src="@drawable/ic_add"
+        app:tint="@color/colorOnPrimary"
+        app:backgroundTint="@color/colorPrimary" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,6 +26,8 @@ public interface ClientDao {
     LiveData<List<Client>> getAll();
     @Query("SELECT * FROM clients WHERE is_active = 1 ORDER BY full_name ASC")
     PagingSource<Integer, Client> getAllActivePaged();
+    @Query("SELECT * FROM clients WHERE is_active = 1 ORDER BY full_name ASC")
+    List<Client> getAllActiveSync();
     @Query("SELECT * FROM clients ORDER BY full_name ASC")
     PagingSource<Integer, Client> getAllPaged();
     @Query("SELECT COUNT(*) FROM clients")

@@ -64,8 +64,15 @@ public class BarcodeScannerFragment extends Fragment {
             if (product != null && isScanning) {
                 isScanning = false;
                 barcodeView.pause();
-                Toast.makeText(requireContext(), "Producto encontrado: " + product.getName(), Toast.LENGTH_SHORT).show();
-                // Aquí se podría navegar a ProductDetailFragment o añadirlo al carrito de ventas
+                Toast.makeText(requireContext(), "Producto encontrado: " + product.getName(), Toast.LENGTH_SHORT).show();                
+                // Añadir al carrito
+                com.swiftpay.viewmodel.SaleViewModel saleViewModel = new ViewModelProvider(requireActivity()).get(com.swiftpay.viewmodel.SaleViewModel.class);
+                saleViewModel.addProductToCart(product, 1);
+                
+                // Limpiar el resultado para que no se vuelva a agregar automáticamente la próxima vez que se abra el escáner
+                viewModel.clearScannedResult();
+                
+                // Regresar a la pantalla anterior
                 ((MainActivity) requireActivity()).getNavController().popBackStack();
             }
         });

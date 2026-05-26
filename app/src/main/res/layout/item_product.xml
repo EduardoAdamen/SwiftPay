@@ -20,7 +20,6 @@
             android:layout_height="64dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_inventory_2"
-            app:tint="@color/colorTextSecondary"
             android:contentDescription="Product Image" />
 
         <LinearLayout

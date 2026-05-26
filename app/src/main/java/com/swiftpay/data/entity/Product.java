@@ -24,12 +24,19 @@ import androidx.room.PrimaryKey;
                         parentColumns = "id",
                         childColumns = "brand_id",
                         onDelete = ForeignKey.SET_NULL
+                ),
+                @ForeignKey(
+                        entity = Supplier.class,
+                        parentColumns = "id",
+                        childColumns = "supplier_id",
+                        onDelete = ForeignKey.SET_NULL
                 )
         },
         indices = {
                 @Index(value = "sku", unique = true),
                 @Index(value = "category_id"),
-                @Index(value = "brand_id")
+                @Index(value = "brand_id"),
+                @Index(value = "supplier_id")
         })
 public class Product {
 
@@ -53,6 +60,9 @@ public class Product {
 
     @ColumnInfo(name = "brand_id")
     private Long brandId;
+
+    @ColumnInfo(name = "supplier_id")
+    private Long supplierId;
 
     @ColumnInfo(name = "image_path")
     private String imagePath;
@@ -139,6 +149,14 @@ public class Product {
 
     public void setBrandId(Long brandId) {
         this.brandId = brandId;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 
     public String getImagePath() {

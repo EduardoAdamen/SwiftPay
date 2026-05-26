@@ -91,14 +91,26 @@ public class SalePaymentFragment extends Fragment {
                 }
             }
             long sellerId = ((MainActivity) requireActivity()).getSessionManager().getUserId();
-            // Default cash register id
-            viewModel.processPayment(selectedMethod, received, sellerId, 1L);
+            viewModel.processPayment(selectedMethod, received, sellerId, null);
+        });
+
+        viewModel.getOperationMessage().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null && !msg.isEmpty()) {
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show();
+                viewModel.resetOperationSuccess();
+            }
         });
 
         viewModel.getOperationSuccess().observe(getViewLifecycleOwner(), success -> {
-            if (success) {
-                Toast.makeText(requireContext(), "Venta Completada", Toast.LENGTH_LONG).show();
-                // Regresar a inicio
+            if (!Boolean.TRUE.equals(success)) {
+                return;
+            }
+            viewModel.resetOperationSuccess();
+            Toast.makeText(requireContext(), "Venta completada", Toast.LENGTH_LONG).show();
+            androidx.navigation.NavController navController =
+                    androidx.navigation.Navigation.findNavController(requireView());
+            if (!navController.popBackStack()) {
+                navController.navigate(R.id.saleListFragment);
             }
         });
     }

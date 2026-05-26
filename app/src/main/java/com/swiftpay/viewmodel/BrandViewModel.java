@@ -43,6 +43,10 @@ public class BrandViewModel extends AndroidViewModel {
         return repository.getBrandById(brandId);
     }
 
+    public LiveData<java.util.List<Brand>> getAllBrands() {
+        return repository.getAllBrands();
+    }
+
     public void saveBrand(Brand brand, long adminUserId) {
         isLoading.setValue(true);
         repository.saveBrand(brand, adminUserId, (success, message) -> {

@@ -22,8 +22,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_inventory_2"
-                android:contentDescription="Imagen"
-                app:tint="@color/colorTextSecondary" />
+                android:contentDescription="Imagen" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_change_image"
@@ -107,6 +106,38 @@
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+        <!-- Marca -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_brand"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_elements"
+            android:hint="Marca">
+
+            <AutoCompleteTextView
+                android:id="@+id/act_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Proveedor -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_supplier"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_elements"
+            android:hint="Proveedor">
+
+            <AutoCompleteTextView
+                android:id="@+id/act_supplier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save"

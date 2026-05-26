@@ -60,11 +60,13 @@ public class DatabaseSeeder {
             db.execSQL("INSERT OR IGNORE INTO product_categories (name, description, created_at) VALUES ('Botanas', NULL," + now + ")");
 
             // ── Productos ──────────────────────────────────────────────────
-            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501055310883','Coca-Cola 600ml',18.0,50,1,1,1,1," + now + "," + now + ")");
-            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501000111201','Pan Blanco Bimbo',45.0,20,2,2,1,1," + now + "," + now + ")");
-            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501011131133','Doritos Nacho',16.0,30,2,3,1,1," + now + "," + now + ")");
-            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501055300075','Sprite 600ml',18.0,40,1,1,1,1," + now + "," + now + ")");
-            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, is_active, version, created_at, updated_at) VALUES ('7501011111111','Cheetos Torciditos',15.0,35,2,3,1,1," + now + "," + now + ")");
+            // El proveedor (id=1) se inserta más abajo; como el FK se valida al final de la transacción implícita,
+            // insertamos los productos con supplier_id=NULL primero y los actualizamos después del proveedor.
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, supplier_id, is_active, version, created_at, updated_at) VALUES ('7501055310883','Coca-Cola 600ml',18.0,50,1,1,NULL,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, supplier_id, is_active, version, created_at, updated_at) VALUES ('7501000111201','Pan Blanco Bimbo',45.0,20,2,2,NULL,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, supplier_id, is_active, version, created_at, updated_at) VALUES ('7501011131133','Doritos Nacho',16.0,30,2,3,NULL,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, supplier_id, is_active, version, created_at, updated_at) VALUES ('7501055300075','Sprite 600ml',18.0,40,1,1,NULL,1,1," + now + "," + now + ")");
+            db.execSQL("INSERT OR IGNORE INTO products (sku, name, price, stock, category_id, brand_id, supplier_id, is_active, version, created_at, updated_at) VALUES ('7501011111111','Cheetos Torciditos',15.0,35,2,3,NULL,1,1," + now + "," + now + ")");
 
             // ── Categorías de Cliente ──────────────────────────────────────
             db.execSQL("INSERT OR IGNORE INTO client_categories (name, description, created_at) VALUES ('Mayorista', NULL," + now + ")");
@@ -87,6 +89,8 @@ public class DatabaseSeeder {
 
             // ── Proveedor y Orden de Compra ────────────────────────────────
             db.execSQL("INSERT INTO suppliers (name, rfc, phone, email, notes, created_at, updated_at) VALUES ('Distribuidora Mexicana',NULL,'5512345678','ventas@distmex.com','Proveedor principal de abarrotes'," + now + "," + now + ")");
+            // Ahora que el proveedor existe, asociamos los productos con él
+            db.execSQL("UPDATE products SET supplier_id = 1 WHERE supplier_id IS NULL");
             db.execSQL("INSERT INTO purchase_orders (supplier_id, total, status, created_at, received_at) VALUES (1,5000.0,'COMPLETADA'," + now + ",NULL)");
 
             // ── Venta de Ejemplo ───────────────────────────────────────────

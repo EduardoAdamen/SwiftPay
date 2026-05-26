@@ -16,23 +16,23 @@ public class UserPreferences {
     @ColumnInfo(name = "user_id")
     private long userId;
     @ColumnInfo(name = "theme_mode", defaultValue = "'SYSTEM'")
-    private String themeMode;
+    private String themeMode = "SYSTEM";
     @ColumnInfo(name = "color_scheme", defaultValue = "'DEFAULT'")
-    private String colorScheme;
+    private String colorScheme = "DEFAULT";
     @ColumnInfo(name = "font_size", defaultValue = "'NORMAL'")
-    private String fontSize;
+    private String fontSize = "NORMAL";
     @ColumnInfo(name = "compact_view", defaultValue = "0")
-    private int compactView;
+    private int compactView = 0;
     @ColumnInfo(name = "animations_enabled", defaultValue = "1")
-    private int animationsEnabled;
+    private int animationsEnabled = 1;
     @ColumnInfo(name = "images_enabled", defaultValue = "1")
-    private int imagesEnabled;
+    private int imagesEnabled = 1;
     @ColumnInfo(name = "notification_sound")
     private String notificationSound;
     @ColumnInfo(name = "wallpaper_path")
     private String wallpaperPath;
     @ColumnInfo(name = "accessibility_mode", defaultValue = "0")
-    private int accessibilityMode;
+    private int accessibilityMode = 0;
 
     public UserPreferences() {}
     public long getId() { return id; }

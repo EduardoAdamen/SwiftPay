@@ -22,7 +22,6 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_inventory_2"
-                app:tint="@color/colorTextSecondary"
                 android:contentDescription="Product Image" />
         </FrameLayout>
 
@@ -101,6 +100,52 @@
                         android:textAppearance="@style/TextAppearance.SwiftPay.HeadlineSmall"
                         android:textColor="@color/colorTextPrimary" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <!-- Marca -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_sections">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marca"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_detail_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sin marca"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                    android:textColor="@color/colorTextPrimary" />
+            </LinearLayout>
+
+            <!-- Proveedor -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_sections">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Proveedor"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_detail_supplier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sin proveedor"
+                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                    android:textColor="@color/colorTextPrimary" />
             </LinearLayout>
 
             <TextView

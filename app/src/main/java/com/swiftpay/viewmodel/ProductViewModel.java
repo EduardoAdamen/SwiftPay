@@ -101,4 +101,21 @@ public class ProductViewModel extends AndroidViewModel {
             operationMessage.postValue(message);
         });
     }
+
+    /** Obtiene productos activos por proveedor (para órdenes de compra) */
+    public LiveData<java.util.List<Product>> getActiveProductsBySupplier(long supplierId) {
+        return repository.getActiveProductsBySupplier(supplierId);
+    }
+
+    /** Obtiene productos activos por proveedor mediante un callback (evita problemas de ciclo de vida con LiveData en dialogos) */
+    public void fetchActiveProductsBySupplier(long supplierId, ProductRepository.GetProductsCallback callback) {
+        repository.getActiveProductsBySupplierSync(supplierId, products -> {
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onResult(products));
+        });
+    }
+
+    /** Obtiene todos los productos activos (lista completa) */
+    public LiveData<java.util.List<Product>> getAllActiveProducts() {
+        return repository.getActiveProducts();
+    }
 }

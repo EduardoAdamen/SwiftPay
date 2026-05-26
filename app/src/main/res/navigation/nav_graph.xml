@@ -111,12 +111,26 @@
     <fragment
         android:id="@+id/saleListFragment"
         android:name="com.swiftpay.ui.ventas.SaleListFragment"
-        android:label="Historial de Ventas" />
+        android:label="Historial de Ventas" >
+        <action
+            android:id="@+id/action_saleList_to_saleCart"
+            app:destination="@id/saleCartFragment" />
+        <action
+            android:id="@+id/action_saleList_to_saleDetail"
+            app:destination="@id/saleDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/saleCartFragment"
         android:name="com.swiftpay.ui.ventas.SaleCartFragment"
-        android:label="Nueva Venta" />
+        android:label="Nueva Venta" >
+        <action
+            android:id="@+id/action_saleCart_to_barcodeScanner"
+            app:destination="@id/barcodeScannerFragment" />
+        <action
+            android:id="@+id/action_saleCart_to_salePayment"
+            app:destination="@id/salePaymentFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/salePaymentFragment"
@@ -251,6 +265,8 @@
         android:name="com.swiftpay.ui.descuentos.DiscountFormFragment"
         android:label="Crear/Editar Descuento" />
 
+    <fragment android:id="@+id/settingsFragment" android:name="com.swiftpay.ui.settings.SettingsFragment" android:label="Configuracion" />
+
     <action android:id="@+id/action_global_nav_profile" app:destination="@id/profileFragment" />
     <action android:id="@+id/action_global_nav_users" app:destination="@id/userManagementFragment" />
     <action android:id="@+id/action_global_nav_products" app:destination="@id/productListFragment" />
@@ -258,8 +274,7 @@
     <action android:id="@+id/action_global_nav_clients" app:destination="@id/clientListFragment" />
     <action android:id="@+id/action_global_nav_discounts" app:destination="@id/discountListFragment" />
     <action android:id="@+id/action_global_nav_sales" app:destination="@id/saleListFragment" />
-
-    <fragment android:id="@+id/settingsFragment" android:name="com.swiftpay.ui.settings.SettingsFragment" android:label="Configuracion" />
+    <action android:id="@+id/action_global_nav_settings" app:destination="@id/settingsFragment" />
 </navigation>
 
 

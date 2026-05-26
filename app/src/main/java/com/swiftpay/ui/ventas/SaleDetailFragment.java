@@ -36,7 +36,7 @@ public class SaleDetailFragment extends Fragment {
     private SaleViewModel viewModel;
     private long saleId = -1L;
     private Sale currentSale;
-    private List<SaleItem> currentItems = new ArrayList<>();
+    private List<com.swiftpay.data.entity.SaleItemWithProduct> currentItems = new ArrayList<>();
 
     @Nullable
     @Override

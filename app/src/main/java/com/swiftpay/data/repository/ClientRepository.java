@@ -127,4 +127,19 @@ public class ClientRepository {
             callback.onResult(count, total);
         });
     }
+
+    public void getAllActiveClientsSync(GetClientsCallback callback) {
+        executor.execute(() -> {
+            try {
+                List<Client> clients = db.clientDao().getAllActiveSync();
+                callback.onResult(clients);
+            } catch (Exception e) {
+                callback.onResult(null);
+            }
+        });
+    }
+
+    public interface GetClientsCallback {
+        void onResult(List<Client> clients);
+    }
 }

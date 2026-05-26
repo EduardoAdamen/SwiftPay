@@ -44,6 +44,10 @@ public class SaleViewModel extends AndroidViewModel {
         discountRepository = new DiscountRepository(application);
     }
 
+    public LiveData<List<Product>> getActiveProducts() {
+        return productRepository.getActiveProducts();
+    }
+
     public LiveData<List<CartItem>> getCartItems() { return cartItems; }
     public LiveData<Double> getSubtotal() { return subtotal; }
     public LiveData<Double> getTotal() { return total; }
@@ -55,6 +59,8 @@ public class SaleViewModel extends AndroidViewModel {
     public void setSelectedClient(Long clientId) {
         this.selectedClientId.setValue(clientId);
     }
+    
+    public LiveData<Long> getSelectedClientId() { return selectedClientId; }
 
     private void recalculateTotals() {
         List<CartItem> items = cartItems.getValue();
@@ -141,23 +147,37 @@ public class SaleViewModel extends AndroidViewModel {
         if (code == null || code.trim().isEmpty()) {
             appliedDiscount.setValue(null);
             recalculateTotals();
+            operationMessage.setValue("Descuento eliminado");
             return;
         }
 
+        String normalizedCode = code.trim().toUpperCase(java.util.Locale.ROOT);
         isLoading.setValue(true);
-        discountRepository.validateDiscountCode(code, (discount, error) -> {
+        discountRepository.validateDiscountCode(normalizedCode, (discount, error) -> {
             isLoading.postValue(false);
             if (error != null) {
                 operationMessage.postValue(error);
             } else {
                 appliedDiscount.postValue(discount);
-                recalculateTotals(); // Must be called from main thread eventually or use postValue patterns, but since it depends on LiveData it's tricky.
-                // Alternatively, trigger a refresh signal.
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(this::recalculateTotals);
+                operationMessage.postValue(
+                        "Descuento aplicado: " + discount.getCode()
+                                + " (" + discount.getDiscountPercentage() + "%)");
             }
         });
     }
 
+    public void resetOperationSuccess() {
+        operationSuccess.setValue(null);
+        operationMessage.setValue(null);
+    }
+
     public void processPayment(String paymentMethod, double amountReceived, long sellerId, Long cashRegisterId) {
+        if (sellerId <= 0) {
+            operationMessage.setValue("Sesión inválida. Vuelve a iniciar sesión.");
+            return;
+        }
+
         List<CartItem> items = cartItems.getValue();
         if (items == null || items.isEmpty()) {
             operationMessage.setValue("El carrito está vacío");
@@ -167,7 +187,7 @@ public class SaleViewModel extends AndroidViewModel {
         double currentTotal = total.getValue() != null ? total.getValue() : 0.0;
         double change = 0.0;
 
-        if ("EFECTIVO".equals(paymentMethod)) {
+        if (Constants.PAYMENT_EFECTIVO.equals(paymentMethod)) {
             if (amountReceived < currentTotal) {
                 operationMessage.setValue("El monto recibido es insuficiente");
                 return;
@@ -181,7 +201,8 @@ public class SaleViewModel extends AndroidViewModel {
         sale.setClientId(selectedClientId.getValue());
         sale.setSellerId(sellerId);
         sale.setCashRegisterId(cashRegisterId);
-        sale.setSubtotal(subtotal.getValue());
+        Double subtotalValue = subtotal.getValue();
+        sale.setSubtotal(subtotalValue != null ? subtotalValue : currentTotal);
         
         DiscountCode discount = appliedDiscount.getValue();
         if (discount != null) {
@@ -244,7 +265,7 @@ public class SaleViewModel extends AndroidViewModel {
         return repository.getSaleById(id);
     }
 
-    public LiveData<java.util.List<SaleItem>> getSaleItems(long saleId) {
+    public LiveData<java.util.List<com.swiftpay.data.entity.SaleItemWithProduct>> getSaleItems(long saleId) {
         return repository.getSaleItems(saleId);
     }
 

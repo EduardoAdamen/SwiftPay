@@ -7,16 +7,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.swiftpay.R;
-import com.swiftpay.data.entity.SaleItem;
+import com.swiftpay.data.entity.SaleItemWithProduct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.SaleItemViewHolder> {
 
-    private List<SaleItem> items = new ArrayList<>();
+    private List<SaleItemWithProduct> items = new ArrayList<>();
 
-    public void submitList(List<SaleItem> newItems) {
+    public void submitList(List<SaleItemWithProduct> newItems) {
         this.items = newItems;
         notifyDataSetChanged();
     }
@@ -30,7 +30,7 @@ public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.SaleIt
 
     @Override
     public void onBindViewHolder(@NonNull SaleItemViewHolder holder, int position) {
-        SaleItem item = items.get(position);
+        SaleItemWithProduct item = items.get(position);
         holder.bind(item);
     }
 
@@ -50,9 +50,16 @@ public class SaleItemAdapter extends RecyclerView.Adapter<SaleItemAdapter.SaleIt
             tvSubtotal = itemView.findViewById(R.id.tv_item_subtotal);
         }
 
-        void bind(SaleItem item) {
+        void bind(SaleItemWithProduct wrappedItem) {
+            com.swiftpay.data.entity.SaleItem item = wrappedItem.saleItem;
             tvQty.setText(item.getQuantity() + "x");
-            tvName.setText("Prod #" + item.getProductId()); // En una implementación real se hace join
+            
+            if (wrappedItem.product != null) {
+                tvName.setText(wrappedItem.product.getName());
+            } else {
+                tvName.setText("Prod #" + item.getProductId());
+            }
+
             tvUnitPrice.setText(String.format(Locale.getDefault(), "$%.2f c/u", item.getUnitPrice()));
             tvSubtotal.setText(String.format(Locale.getDefault(), "$%.2f", item.getQuantity() * item.getUnitPrice()));
         }

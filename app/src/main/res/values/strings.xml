@@ -99,6 +99,29 @@
     <string name="settings_load_images">Cargar Imagenes (ahorro de datos)</string>
     <string name="settings_animations">Animaciones y Transiciones</string>
     <string name="settings_save">Guardar Configuracion y Reiniciar App</string>
+    <string name="settings_personalization">Personalización</string>
+    <string name="settings_wallpaper_none">Fondo: ninguno</string>
+    <string name="settings_wallpaper_pick">Elegir fondo</string>
+    <string name="settings_wallpaper_clear">Quitar</string>
+    <string name="settings_sound_default">Sonido: predeterminado</string>
+    <string name="settings_sound_pick">Elegir sonido</string>
+    <string name="settings_sound_test">Probar</string>
+    <string name="settings_alarms">Alarmas</string>
+    <string name="settings_alarms_enable">Activar recordatorios</string>
+    <string name="settings_alarms_pick_time">Elegir hora</string>
+    <string name="settings_alarms_days">Días</string>
+    <string name="day_mon">Lun</string>
+    <string name="day_tue">Mar</string>
+    <string name="day_wed">Mié</string>
+    <string name="day_thu">Jue</string>
+    <string name="day_fri">Vie</string>
+    <string name="day_sat">Sáb</string>
+    <string name="day_sun">Dom</string>
+
+    <!-- Ventas - Carrito -->
+    <string name="sale_cart_catalog_title">Catálogo</string>
+    <string name="sale_cart_items_title">Carrito</string>
+    <string name="sale_cart_apply_discount">Aplicar descuento</string>
 
     <!-- Barcode Scanner -->
     <string name="barcode_scanner_hint">Apunta la camara al codigo de barras</string>
@@ -118,4 +141,4 @@
     <!-- Optimistic Lock -->
     <string name="optimistic_lock_title">Conflicto de edicion</string>
     <string name="optimistic_lock_message">El producto fue modificado por otro usuario. Recarga la pantalla e intenta de nuevo.</string>
-</resources>
+</resources>

@@ -48,6 +48,13 @@ public class BrandRepository {
     }
 
     /**
+     * Obtiene la lista completa de marcas (sin paginación).
+     */
+    public LiveData<java.util.List<Brand>> getAllBrands() {
+        return db.brandDao().getAll();
+    }
+
+    /**
      * Crea o actualiza una marca.
      */
     public void saveBrand(Brand brand, long adminUserId, OperationCallback callback) {

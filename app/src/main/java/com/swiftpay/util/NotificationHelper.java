@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.swiftpay.AlarmReceiver;
 import com.swiftpay.R;
+import com.swiftpay.util.AlarmScheduler;
 
 /**
  * Centralised helper for SwiftPay notification management.
@@ -44,11 +45,44 @@ public final class NotificationHelper {
             channel.enableVibration(true);
             channel.setVibrationPattern(new long[]{0, 500, 200, 500});
 
+            // UX-D2: apply user-selected sound to the channel when available.
+            Uri soundUri = null;
+            try {
+                android.content.SharedPreferences prefs = context.getSharedPreferences(AlarmScheduler.PREFS, Context.MODE_PRIVATE);
+                String sound = prefs.getString("notification_sound", null);
+                if (sound != null && !sound.trim().isEmpty()) {
+                    soundUri = Uri.parse(sound);
+                }
+            } catch (Exception ignored) {}
+            if (soundUri != null) {
+                AudioAttributes attrs = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
+                channel.setSound(soundUri, attrs);
+            }
+
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             if (manager != null) {
                 manager.createNotificationChannel(channel);
             }
         }
+    }
+
+    /**
+     * On Android O+ the sound is controlled by the NotificationChannel.
+     * Recreates the channel so the user's sound preference takes effect.
+     */
+    public static void recreateNotificationChannel(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
+            if (manager != null) {
+                try {
+                    manager.deleteNotificationChannel(CHANNEL_ID);
+                } catch (Exception ignored) {}
+            }
+        }
+        createNotificationChannel(context);
     }
 
     /**

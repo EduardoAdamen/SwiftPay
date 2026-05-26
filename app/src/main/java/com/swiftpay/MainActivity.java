@@ -62,9 +62,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String colorScheme = "DEFAULT";
+        int accessibilityMode = 0;
+        String wallpaperUri = null;
         try {
             android.content.SharedPreferences prefs = getSharedPreferences("swiftpay_ux_prefs", Context.MODE_PRIVATE);
             colorScheme = prefs.getString("color_scheme", "DEFAULT");
+            accessibilityMode = prefs.getInt("accessibility_mode", 0);
+            wallpaperUri = prefs.getString("wallpaper_path", null);
         } catch (Exception ignored) {}
 
         // UX-B7: apply color scheme overlay BEFORE setContentView.
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         sessionManager = new SessionManager(this);
+
+        // UX-E3 + UX-F2: apply wallpaper + accessibility sizing early.
+        ThemeManager.applyWallpaper(this, wallpaperUri);
+        ThemeManager.applyAccessibilitySizing(this, accessibilityMode == 1);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -222,11 +230,24 @@ public class MainActivity extends AppCompatActivity
         }
         TextView tvName = headerView.findViewById(R.id.tv_nav_name);
         TextView tvRole = headerView.findViewById(R.id.tv_nav_role);
+        android.widget.ImageView ivAvatar = headerView.findViewById(R.id.iv_nav_avatar);
+        
         if (tvName != null) {
             tvName.setText(sessionManager.getFullName());
         }
         if (tvRole != null) {
             tvRole.setText(sessionManager.getRole());
+        }
+        
+        if (ivAvatar != null && sessionManager.isLoggedIn()) {
+            SwiftPayDatabase db = ((SwiftPayApplication) getApplication()).getDatabase();
+            db.userDao().getById(sessionManager.getUserId()).observe(this, user -> {
+                if (user != null && user.getProfileImagePath() != null && !user.getProfileImagePath().isEmpty()) {
+                    com.swiftpay.util.ImageLoader.loadLocalProfileImage(this, user.getProfileImagePath(), ivAvatar, true);
+                } else {
+                    ivAvatar.setImageResource(R.drawable.ic_account_circle);
+                }
+            });
         }
     }
 
@@ -253,7 +274,7 @@ public class MainActivity extends AppCompatActivity
             navigateClearingBackStack(R.id.loginFragment);
             setDrawerLocked(true);
         } else if (itemId == R.id.nav_settings) {
-            navigate(itemId, R.id.settingsFragment);
+            navigate(itemId, R.id.action_global_nav_settings);
         } else if (itemId == R.id.nav_profile) {
             navigate(itemId, R.id.profileFragment);
         } else if (itemId == R.id.userManagementFragment) {

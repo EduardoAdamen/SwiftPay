@@ -71,4 +71,10 @@ public class ClientViewModel extends AndroidViewModel {
     public void getClientStats(long clientId, ClientRepository.ClientStatsCallback callback) {
         repository.getClientStats(clientId, callback);
     }
+
+    public void fetchAllActiveClients(ClientRepository.GetClientsCallback callback) {
+        repository.getAllActiveClientsSync(clients -> {
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onResult(clients));
+        });
+    }
 }

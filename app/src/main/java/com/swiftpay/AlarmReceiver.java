@@ -6,9 +6,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import com.swiftpay.util.NotificationHelper;
+import com.swiftpay.util.AlarmScheduler;
 
 /**
  * BroadcastReceiver for scheduled SwiftPay alarms.
@@ -31,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // UX-D5: User tapped "Silence" on the notification — cancel the repeating alarm.
         if (NotificationHelper.ACTION_SILENCE.equals(action)) {
-            cancelRepeatingAlarm(context);
+            AlarmScheduler.cancelAll(context);
             return;
         }
 
@@ -46,9 +48,17 @@ public class AlarmReceiver extends BroadcastReceiver {
             pendingAlertMessage = message;
             // The hosting Activity checks consumePendingAlert() on each onResume/tick.
         } else {
+            Uri soundUri = null;
+            try {
+                android.content.SharedPreferences prefs = context.getSharedPreferences(AlarmScheduler.PREFS, Context.MODE_PRIVATE);
+                String sound = prefs.getString("notification_sound", null);
+                if (sound != null && !sound.trim().isEmpty()) {
+                    soundUri = Uri.parse(sound);
+                }
+            } catch (Exception ignored) {}
             NotificationHelper.sendNotification(
                     context, title, message, 1001,
-                    R.drawable.ic_notifications, null);
+                    R.drawable.ic_notifications, soundUri);
         }
     }
 

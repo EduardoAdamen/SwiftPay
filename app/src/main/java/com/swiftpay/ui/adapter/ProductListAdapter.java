@@ -1,4 +1,3 @@
-// app/src/main/java/com/swiftpay/ui/adapter/ProductPagingAdapter.java
 package com.swiftpay.ui.adapter;
 
 import android.view.LayoutInflater;
@@ -7,33 +6,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.paging.PagingDataAdapter;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.swiftpay.R;
 import com.swiftpay.data.entity.Product;
 import com.swiftpay.util.CurrencyUtils;
 import com.swiftpay.util.ImageLoader;
 
-public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagingAdapter.ProductViewHolder> {
+/**
+ * Lista simple de productos (sin paginación) para selección rápida en ventas.
+ */
+public class ProductListAdapter extends ListAdapter<Product, ProductListAdapter.ProductViewHolder> {
 
     private final OnProductClickListener listener;
-    private boolean imagesEnabled = true;
-    private boolean compactView = false;
 
-    public ProductPagingAdapter(OnProductClickListener listener) {
+    public ProductListAdapter(OnProductClickListener listener) {
         super(DIFF_CALLBACK);
         this.listener = listener;
-    }
-
-    public void setImagesEnabled(boolean imagesEnabled) {
-        this.imagesEnabled = imagesEnabled;
-        notifyDataSetChanged();
-    }
-
-    public void setCompactView(boolean compactView) {
-        this.compactView = compactView;
-        notifyDataSetChanged();
     }
 
     private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
@@ -41,17 +31,16 @@ public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagi
         public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
             return oldItem.getId() == newItem.getId();
         }
+
         @Override
         public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
             boolean sameImage = (oldItem.getImagePath() == null && newItem.getImagePath() == null) ||
                                 (oldItem.getImagePath() != null && oldItem.getImagePath().equals(newItem.getImagePath()));
-            
+                                
             return oldItem.getSku().equals(newItem.getSku())
                     && oldItem.getName().equals(newItem.getName())
                     && oldItem.getPrice() == newItem.getPrice()
                     && oldItem.getStock() == newItem.getStock()
-                    && oldItem.getIsActive() == newItem.getIsActive()
-                    && oldItem.getVersion() == newItem.getVersion()
                     && sameImage;
         }
     };
@@ -59,16 +48,14 @@ public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagi
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_product, parent, false);
         return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product product = getItem(position);
-        if (product != null) {
-            holder.bind(product);
-        }
+        holder.bind(getItem(position));
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -89,9 +76,6 @@ public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagi
             tvSku.setText("SKU: " + product.getSku());
             tvPrice.setText(CurrencyUtils.format(product.getPrice()));
             tvStock.setText("Stock: " + product.getStock());
-            itemView.setMinimumHeight(itemView.getResources().getDimensionPixelSize(
-                    compactView ? R.dimen.list_item_compact_height : R.dimen.list_item_height));
-            tvSku.setVisibility(compactView ? View.GONE : View.VISIBLE);
 
             if (product.getStock() <= 5) {
                 tvStock.setTextColor(itemView.getContext().getColor(R.color.colorWarning));
@@ -100,13 +84,15 @@ public class ProductPagingAdapter extends PagingDataAdapter<Product, ProductPagi
             }
 
             if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
-                ImageLoader.loadLocalImage(itemView.getContext(), product.getImagePath(), ivImage, imagesEnabled);
+                ImageLoader.loadLocalImage(itemView.getContext(), product.getImagePath(), ivImage, true);
             } else {
-                ivImage.setImageResource(R.drawable.ic_image);
+                ivImage.setImageResource(R.drawable.ic_inventory_2);
             }
 
             itemView.setOnClickListener(v -> {
-                if (listener != null) listener.onProductClick(product);
+                if (listener != null) {
+                    listener.onProductClick(product);
+                }
             });
         }
     }

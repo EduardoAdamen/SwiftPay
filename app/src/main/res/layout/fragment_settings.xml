@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- app/src/main/res/layout/fragment_settings.xml -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/margin_lateral"
@@ -105,6 +106,176 @@
             android:text="@string/settings_animations"
             android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
             android:layout_marginBottom="@dimen/padding_card"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginVertical="@dimen/padding_card"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_personalization"
+            android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginBottom="@dimen/spacing_elements"/>
+
+        <TextView
+            android:id="@+id/tvWallpaperStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_wallpaper_none"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginBottom="6dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/padding_card">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPickWallpaper"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_wallpaper_pick" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearWallpaper"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_elements"
+                android:text="@string/settings_wallpaper_clear" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvSoundStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_sound_default"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginBottom="6dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/padding_card">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPickSound"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_sound_pick" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTestSound"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_elements"
+                android:text="@string/settings_sound_test" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider"
+            android:layout_marginVertical="@dimen/padding_card"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_alarms"
+            android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginBottom="@dimen/spacing_elements"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchAlarms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/button_height"
+            android:text="@string/settings_alarms_enable"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+            android:layout_marginBottom="@dimen/padding_card"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickAlarmTime"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_alarms_pick_time"
+            android:layout_marginBottom="@dimen/padding_card"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_alarms_days"
+            android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
+            android:textColor="@color/colorTextSecondary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupAlarmDays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="false"
+            app:selectionRequired="false"
+            android:layout_marginBottom="@dimen/padding_card"
+            app:chipSpacingHorizontal="6dp"
+            app:chipSpacingVertical="6dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMon"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_mon" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTue"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_tue" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWed"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_wed" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipThu"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_thu" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFri"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_fri" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSat"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_sat" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSun"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day_sun" />
+        </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveSettings"

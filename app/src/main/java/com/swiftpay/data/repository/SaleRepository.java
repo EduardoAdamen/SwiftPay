@@ -64,8 +64,8 @@ public class SaleRepository {
         return db.saleDao().getById(id);
     }
 
-    public LiveData<List<SaleItem>> getSaleItems(long saleId) {
-        return db.saleItemDao().getBySaleId(saleId);
+    public LiveData<List<com.swiftpay.data.entity.SaleItemWithProduct>> getSaleItems(long saleId) {
+        return db.saleItemDao().getSaleItemsWithProduct(saleId);
     }
 
     public LiveData<List<SaleStatusHistory>> getSaleStatusHistory(long saleId) {
@@ -81,17 +81,20 @@ public class SaleRepository {
      */
     public void createSale(Sale sale, List<SaleItem> items, CreateSaleCallback callback) {
         executor.execute(() -> {
-            db.runInTransaction(() -> {
-                try {
+            Long saleIdResult = null;
+            String errorMessage = null;
+            try {
+                saleIdResult = db.runInTransaction(() -> {
                     long now = System.currentTimeMillis();
                     sale.setCreatedAt(now);
                     sale.setUpdatedAt(now);
-                    
+
+                    resolveCashRegisterId(sale);
+
                     long saleId = db.saleDao().insert(sale);
 
                     for (SaleItem item : items) {
                         item.setSaleId(saleId);
-                        // Atómico decremento de stock
                         int updated = db.productDao().decrementStock(item.getProductId(), item.getQuantity());
                         if (updated == 0) {
                             throw new RuntimeException("Stock insuficiente para el producto ID: " + item.getProductId());
@@ -99,7 +102,6 @@ public class SaleRepository {
                     }
                     db.saleItemDao().insertAll(items);
 
-                    // Insert status history
                     SaleStatusHistory history = new SaleStatusHistory();
                     history.setSaleId(saleId);
                     history.setPreviousStatus(null);
@@ -108,28 +110,46 @@ public class SaleRepository {
                     history.setChangedAt(now);
                     db.saleStatusHistoryDao().insert(history);
 
-                    // Insert system event
                     SystemEvent event = new SystemEvent();
-                    event.setEventType("NEW_SALE");
+                    event.setEventType(Constants.EVENT_NEW_SALE);
                     event.setCreatedAt(now);
                     event.setEntityId(saleId);
                     event.setIsReviewed(0);
                     db.systemEventDao().insert(event);
 
-                    AuditLogger.log(context, sale.getSellerId(), "CREATE_SALE", "SALE", saleId, "Venta creada");
-                    
-                    // Callback must be run synchronously inside transaction or posted to main thread
-                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> 
-                        callback.onResult(true, "Venta procesada con éxito", saleId)
-                    );
-                } catch (Exception e) {
-                    new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> 
-                        callback.onResult(false, e.getMessage(), null)
-                    );
-                    throw e; // To trigger rollback
+                    return saleId;
+                });
+            } catch (Exception e) {
+                errorMessage = e.getMessage() != null ? e.getMessage() : "Error al procesar la venta";
+            }
+
+            final Long finalSaleId = saleIdResult;
+            final String finalError = errorMessage;
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                if (finalError == null && finalSaleId != null) {
+                    AuditLogger.log(context, sale.getSellerId(), "CREATE_SALE", "SALE", finalSaleId, "Venta creada");
+                    callback.onResult(true, "Venta procesada con éxito", finalSaleId);
+                } else {
+                    callback.onResult(false, finalError != null ? finalError : "Error al procesar la venta", null);
                 }
             });
         });
+    }
+
+    /** Asigna caja abierta del vendedor o null si no hay / no es válida (evita FK crash). */
+    private void resolveCashRegisterId(Sale sale) {
+        Long requestedId = sale.getCashRegisterId();
+        if (requestedId != null) {
+            com.swiftpay.data.entity.CashRegister register = db.cashRegisterDao().getByIdSync(requestedId);
+            if (register == null || register.getClosedAt() != null) {
+                sale.setCashRegisterId(null);
+            }
+            return;
+        }
+        com.swiftpay.data.entity.CashRegister open = db.cashRegisterDao().getOpenRegisterBySeller(sale.getSellerId());
+        if (open != null) {
+            sale.setCashRegisterId(open.getId());
+        }
     }
 
     public void updateStatus(long saleId, String newStatus, long changedByUserId, CreateSaleCallback callback) {

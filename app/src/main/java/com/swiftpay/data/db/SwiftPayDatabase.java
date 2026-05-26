@@ -30,7 +30,7 @@ import com.swiftpay.data.entity.*;
                 AuditLog.class,
                 UserPreferences.class
         },
-        version = 2,
+        version = 3,
         exportSchema = true
 )
 @TypeConverters({Converters.class})

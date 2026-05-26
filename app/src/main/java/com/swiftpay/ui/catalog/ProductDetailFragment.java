@@ -21,19 +21,23 @@ import com.swiftpay.data.entity.Product;
 import com.swiftpay.data.preferences.SessionManager;
 import com.swiftpay.data.repository.UserPreferencesRepository;
 import com.swiftpay.util.ImageLoader;
+import com.swiftpay.viewmodel.BrandViewModel;
 import com.swiftpay.viewmodel.ProductViewModel;
+import com.swiftpay.viewmodel.SupplierViewModel;
 import java.util.Locale;
 
 public class ProductDetailFragment extends Fragment {
 
     private ProductViewModel viewModel;
+    private SupplierViewModel supplierViewModel;
+    private BrandViewModel brandViewModel;
     private long productId = -1;
     private Product currentProduct;
     private SessionManager sessionManager;
     private boolean imagesEnabled = true;
 
     private ImageView ivProductImage;
-    private TextView tvName, tvSku, tvPrice, tvStock, tvDescription;
+    private TextView tvName, tvSku, tvPrice, tvStock, tvDescription, tvBrand, tvSupplier;
     private MaterialButton btnEdit, btnDelete;
 
     public ProductDetailFragment() {}
@@ -50,6 +54,8 @@ public class ProductDetailFragment extends Fragment {
 
         sessionManager = ((MainActivity) requireActivity()).getSessionManager();
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        supplierViewModel = new ViewModelProvider(this).get(SupplierViewModel.class);
+        brandViewModel = new ViewModelProvider(this).get(BrandViewModel.class);
         final androidx.navigation.NavController navController =
                 androidx.navigation.Navigation.findNavController(view);
 
@@ -63,6 +69,8 @@ public class ProductDetailFragment extends Fragment {
         tvPrice = view.findViewById(R.id.tv_detail_price);
         tvStock = view.findViewById(R.id.tv_detail_stock);
         tvDescription = view.findViewById(R.id.tv_detail_description);
+        tvBrand = view.findViewById(R.id.tv_detail_brand);
+        tvSupplier = view.findViewById(R.id.tv_detail_supplier);
         btnEdit = view.findViewById(R.id.btn_edit_product);
         btnDelete = view.findViewById(R.id.btn_delete_product);
 
@@ -133,6 +141,32 @@ public class ProductDetailFragment extends Fragment {
         tvSku.setText("SKU: " + product.getSku());
         tvPrice.setText(String.format(Locale.getDefault(), "$%.2f", product.getPrice()));
         tvStock.setText(String.valueOf(product.getStock()));
+
+        // Resolver nombre de la marca
+        if (product.getBrandId() != null && product.getBrandId() > 0) {
+            brandViewModel.getBrandById(product.getBrandId()).observe(getViewLifecycleOwner(), brand -> {
+                if (brand != null) {
+                    tvBrand.setText(brand.getName());
+                } else {
+                    tvBrand.setText("Sin marca");
+                }
+            });
+        } else {
+            tvBrand.setText("Sin marca");
+        }
+
+        // Resolver nombre del proveedor
+        if (product.getSupplierId() != null && product.getSupplierId() > 0) {
+            supplierViewModel.getSupplier(product.getSupplierId()).observe(getViewLifecycleOwner(), supplier -> {
+                if (supplier != null) {
+                    tvSupplier.setText(supplier.getName());
+                } else {
+                    tvSupplier.setText("Sin proveedor");
+                }
+            });
+        } else {
+            tvSupplier.setText("Sin proveedor");
+        }
 
         StringBuilder descBuilder = new StringBuilder();
         if (product.getWeight() != null && !product.getWeight().trim().isEmpty()) {

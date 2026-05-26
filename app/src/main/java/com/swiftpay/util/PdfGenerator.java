@@ -10,7 +10,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.swiftpay.data.entity.Sale;
-import com.swiftpay.data.entity.SaleItem;
+import com.swiftpay.data.entity.SaleItemWithProduct;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,7 +34,7 @@ public final class PdfGenerator {
      * @return generated receipt file
      * @throws Exception when the PDF cannot be written
      */
-    public static File generateSaleReceipt(Context context, Sale sale, List<SaleItem> items) throws Exception {
+    public static File generateSaleReceipt(Context context, Sale sale, List<SaleItemWithProduct> items) throws Exception {
         File dir = new File(context.getFilesDir(), "receipts");
         if (!dir.exists() && !dir.mkdirs()) {
             throw new IllegalStateException("No se pudo crear el directorio de recibos");
@@ -65,9 +65,16 @@ public final class PdfGenerator {
         table.addHeaderCell("P.Unit");
         table.addHeaderCell("Subtotal");
 
-        for (SaleItem item : items) {
+        for (SaleItemWithProduct wrappedItem : items) {
+            com.swiftpay.data.entity.SaleItem item = wrappedItem.saleItem;
             table.addCell(String.valueOf(item.getQuantity()));
-            table.addCell("Prod #" + item.getProductId());
+            
+            if (wrappedItem.product != null) {
+                table.addCell(wrappedItem.product.getName());
+            } else {
+                table.addCell("Prod #" + item.getProductId());
+            }
+            
             table.addCell(String.format(Locale.getDefault(), "$%.2f", item.getUnitPrice()));
             double itemSubtotal = item.getQuantity() * item.getUnitPrice();
             table.addCell(String.format(Locale.getDefault(), "$%.2f", itemSubtotal));

@@ -43,6 +43,35 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/margin_lateral"
+            android:paddingTop="@dimen/spacing_elements"
+            android:paddingBottom="4dp"
+            android:text="@string/sale_cart_catalog_title"
+            android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+            android:textColor="@color/colorTextPrimary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_catalog_products"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingVertical="4dp"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/margin_lateral"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="@string/sale_cart_items_title"
+            android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+            android:textColor="@color/colorTextPrimary" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_cart_items"
             android:layout_width="match_parent"
@@ -97,7 +126,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Aplicar Descuento"
+                        android:text="@string/sale_cart_apply_discount"
                         android:textColor="@color/colorPrimary"
                         android:minHeight="0dp"
                         android:insetTop="0dp"
@@ -114,6 +143,37 @@
                         android:layout_height="wrap_content"
                         android:text="-$0.00"
                         android:textColor="@color/colorError"
+                        android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_assign_client"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vincular Cliente"
+                        android:textColor="@color/colorPrimary"
+                        android:minHeight="0dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+                        
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                        
+                    <TextView
+                        android:id="@+id/tv_cart_client"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Público General"
                         android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium" />
                 </LinearLayout>
 

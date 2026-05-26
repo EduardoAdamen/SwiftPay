@@ -38,11 +38,18 @@ public class SaleListFragment extends Fragment {
         EditText etSearch = view.findViewById(R.id.et_search_sale);
 
         adapter = new SalePagingAdapter(sale -> {
-            // Navegar a detalle
+            Bundle bundle = new Bundle();
+            bundle.putLong("saleId", sale.getId());
+            androidx.navigation.Navigation.findNavController(getView()).navigate(R.id.action_saleList_to_saleDetail, bundle);
         });
 
         rvSales.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvSales.setAdapter(adapter);
+
+        com.google.android.material.floatingactionbutton.FloatingActionButton fab = view.findViewById(R.id.fab_new_sale);
+        fab.setOnClickListener(v -> {
+            androidx.navigation.Navigation.findNavController(v).navigate(R.id.action_saleList_to_saleCart);
+        });
 
         viewModel.getFilteredSalesPaged().observe(getViewLifecycleOwner(), pagingData -> {
             adapter.submitData(getLifecycle(), pagingData);

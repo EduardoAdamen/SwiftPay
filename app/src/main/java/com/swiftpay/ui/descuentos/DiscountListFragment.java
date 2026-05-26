@@ -39,7 +39,7 @@ public class DiscountListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         sessionManager = ((MainActivity) requireActivity()).getSessionManager();
-        if (!sessionManager.hasRole("ADMINISTRADOR")) {
+        if (!sessionManager.hasRole("ADMINISTRADOR") && !sessionManager.hasRole("VENDEDOR")) {
             ((MainActivity) requireActivity()).getNavController().navigate(R.id.accessDeniedFragment);
             return;
         }
@@ -49,13 +49,19 @@ public class DiscountListFragment extends Fragment {
         RecyclerView rvDiscounts = view.findViewById(R.id.rv_discounts);
         FloatingActionButton fabAdd = view.findViewById(R.id.fab_add_discount);
 
+        if (sessionManager.hasRole("VENDEDOR") && !sessionManager.hasRole("ADMINISTRADOR")) {
+            fabAdd.setVisibility(View.GONE);
+        }
+
         adapter = new DiscountPagingAdapter(
             code -> {
-                Bundle bundle = new Bundle();
-                bundle.putLong("discountId", code.getId());
-                androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.action_discountList_to_discountForm, bundle);
+                // El usuario solicitó que no pase nada al tocar un descuento y no mostrar toast.
             },
             (code, isActive) -> {
+                if (sessionManager.hasRole("VENDEDOR") && !sessionManager.hasRole("ADMINISTRADOR")) {
+                    adapter.notifyDataSetChanged(); // Revert visual switch state silently sin Toast
+                    return;
+                }
                 code.setIsActive(isActive ? 1 : 0);
                 viewModel.saveDiscount(code, sessionManager.getUserId());
             }

@@ -16,11 +16,11 @@ public interface ProductDao {
     long insert(Product product);
     @Query("UPDATE products SET sku = :sku, name = :name, " +
            "price = :price, stock = :stock, category_id = :categoryId, brand_id = :brandId, " +
-           "image_path = :imagePath, is_active = :isActive, updated_at = :updatedAt, " +
+           "supplier_id = :supplierId, image_path = :imagePath, is_active = :isActive, updated_at = :updatedAt, " +
            "version = version + 1 WHERE id = :id AND version = :expectedVersion")
     int updateOptimistic(long id, String sku, String name, double price, 
-                         int stock, long categoryId, Long brandId, String imagePath, 
-                         int isActive, long updatedAt, int expectedVersion);
+                         int stock, long categoryId, Long brandId, Long supplierId,
+                         String imagePath, int isActive, long updatedAt, int expectedVersion);
     @Delete
     void delete(Product product);
     @Query("SELECT * FROM products WHERE id = :id")
@@ -41,4 +41,10 @@ public interface ProductDao {
     void incrementStock(long productId, int qty);
     @Query("SELECT COUNT(*) FROM sale_items WHERE product_id = :productId")
     int getSaleCountByProduct(long productId);
+    @Query("SELECT * FROM products WHERE supplier_id = :supplierId AND is_active = 1 ORDER BY name ASC")
+    LiveData<List<Product>> getActiveBySupplier(long supplierId);
+    @Query("SELECT * FROM products WHERE supplier_id = :supplierId AND is_active = 1 ORDER BY name ASC")
+    List<Product> getActiveBySupplierSync(long supplierId);
+    @Query("SELECT * FROM products WHERE is_active = 1 ORDER BY name ASC")
+    List<Product> getAllActiveSync();
 }
