@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/spacing_elements"
-    android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="@dimen/margin_lateral"
+    android:layout_marginVertical="5dp"
     app:cardCornerRadius="@dimen/corner_radius_card"
-    app:cardElevation="@dimen/elevation_card">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,21 +16,38 @@
         android:gravity="center_vertical"
         android:padding="@dimen/padding_card">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_label"
-            android:contentDescription="Brand"
-            app:tint="@color/colorPrimary" />
+        <!-- Icon container -->
+        <FrameLayout
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_icon_stat_primary"
+            android:layout_marginEnd="@dimen/spacing_elements_lg">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_label"
+                app:tint="@color/colorPrimary"
+                android:contentDescription="Marca" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_brand_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="@dimen/spacing_elements"
             android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
-            android:textColor="@color/colorTextPrimary" />
+            android:textColor="@color/colorTextPrimary"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_arrow_back"
+            android:rotation="180"
+            app:tint="@color/colorBorder"
+            android:contentDescription="Ver más" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

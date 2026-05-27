@@ -70,8 +70,9 @@ public class UserAdapter extends ListAdapter<User, UserAdapter.UserViewHolder> {
             // Estado activo/inactivo
             boolean active = user.getIsActive() == 1;
             tvStatus.setText(active ? "Activo" : "Inactivo");
-            tvStatus.setTextColor(itemView.getContext().getColor(
-                    active ? R.color.colorSuccess : R.color.colorError));
+            tvStatus.setTextColor(itemView.getContext().getColor(R.color.white));
+            tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                    itemView.getContext().getColor(active ? R.color.colorSuccess : R.color.colorError)));
 
             ivMenu.setOnClickListener(v -> {
                 if (listener != null) listener.onUserAction(user);

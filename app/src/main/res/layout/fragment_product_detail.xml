@@ -1,189 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Imagen del producto -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/colorSurfaceVariant">
-            
-            <ImageView
-                android:id="@+id/iv_product_detail_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_inventory_2"
-                android:contentDescription="Product Image" />
-        </FrameLayout>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_lateral">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_detail_name"
+            <!-- Hero Image Section -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/bg_circle_accent">
+                
+                <ImageView
+                    android:id="@+id/iv_product_detail_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_inventory_2"
+                    android:contentDescription="Product Image" />
+
+                <!-- Gradient Overlay -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/bg_role_badge"
+                    android:alpha="0.2" />
+            </FrameLayout>
+
+            <!-- Main Content Card overlapping the image -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.SwiftPay.HeadlineMedium"
-                android:textColor="@color/colorTextPrimary"
-                android:layout_marginBottom="4dp" />
-
-            <TextView
-                android:id="@+id/tv_detail_sku"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
-                android:textColor="@color/colorTextSecondary"
-                android:layout_marginBottom="@dimen/spacing_sections" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_sections" />
-
-            <!-- Precio y Stock -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/spacing_sections">
+                android:layout_marginTop="-40dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="32dp"
+                android:layout_marginHorizontal="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
+                    android:orientation="vertical"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="40dp">
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_detail_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Precio"
-                        android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
-                        android:textColor="@color/colorTextSecondary" />
+                        android:textAppearance="@style/TextAppearance.SwiftPay.HeadlineMedium"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="24dp">
                         
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SKU: "
+                            android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                            android:textColor="@color/colorTextSecondary" />
+                            
+                        <TextView
+                            android:id="@+id/tv_detail_sku"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Stats Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_role_badge"
+                        android:padding="16dp"
+                        android:layout_marginBottom="24dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Precio"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.LabelSmall"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textAllCaps="true" />
+                                
+                            <TextView
+                                android:id="@+id/tv_detail_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.TitleLarge"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorDivider"
+                            android:layout_marginHorizontal="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Stock Disponible"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.LabelSmall"
+                                android:textColor="@color/colorTextSecondary"
+                                android:textAllCaps="true" />
+                                
+                            <TextView
+                                android:id="@+id/tv_detail_stock"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.TitleLarge"
+                                android:textColor="@color/colorTextPrimary"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Details Section -->
                     <TextView
-                        android:id="@+id/tv_detail_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.SwiftPay.HeadlineSmall"
-                        android:textColor="@color/colorPrimary" />
+                        android:text="Información General"
+                        android:textAppearance="@style/TextAppearance.SwiftPay.LabelSection"
+                        android:textColor="@color/colorTextSecondary"
+                        android:layout_marginBottom="16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_category"
+                            app:tint="@color/colorTextSecondary"
+                            android:layout_marginEnd="12dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Marca"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.LabelSmall"
+                                android:textColor="@color/colorTextSecondary" />
+
+                            <TextView
+                                android:id="@+id/tv_detail_brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sin marca"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                                android:textColor="@color/colorTextPrimary" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_business"
+                            app:tint="@color/colorTextSecondary"
+                            android:layout_marginEnd="12dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Proveedor"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.LabelSmall"
+                                android:textColor="@color/colorTextSecondary" />
+
+                            <TextView
+                                android:id="@+id/tv_detail_supplier"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sin proveedor"
+                                android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                                android:textColor="@color/colorTextPrimary" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descripción"
+                        android:textAppearance="@style/TextAppearance.SwiftPay.LabelSection"
+                        android:textColor="@color/colorTextSecondary"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
+                        android:textColor="@color/colorTextPrimary"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="32dp" />
+
+                    <!-- Actions -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_delete_product"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:text="Eliminar"
+                            android:textColor="@color/colorError"
+                            app:iconTint="@color/colorError"
+                            app:strokeColor="@color/colorError"
+                            app:icon="@drawable/ic_delete" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_edit_product"
+                            style="@style/Widget.SwiftPay.Button.Primary"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Editar"
+                            app:icon="@drawable/ic_edit" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Stock Disponible"
-                        android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
-                        android:textColor="@color/colorTextSecondary" />
-                        
-                    <TextView
-                        android:id="@+id/tv_detail_stock"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.SwiftPay.HeadlineSmall"
-                        android:textColor="@color/colorTextPrimary" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Marca -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/spacing_sections">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Marca"
-                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
-                    android:textColor="@color/colorTextSecondary" />
-
-                <TextView
-                    android:id="@+id/tv_detail_brand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin marca"
-                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
-                    android:textColor="@color/colorTextPrimary" />
-            </LinearLayout>
-
-            <!-- Proveedor -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/spacing_sections">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Proveedor"
-                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
-                    android:textColor="@color/colorTextSecondary" />
-
-                <TextView
-                    android:id="@+id/tv_detail_supplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin proveedor"
-                    android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
-                    android:textColor="@color/colorTextPrimary" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Descripción"
-                android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
-                android:textColor="@color/colorTextSecondary"
-                android:layout_marginBottom="4dp" />
-
-            <TextView
-                android:id="@+id/tv_detail_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.SwiftPay.BodyLarge"
-                android:textColor="@color/colorTextPrimary"
-                android:layout_marginBottom="@dimen/spacing_sections" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_edit_product"
-                style="@style/Widget.SwiftPay.Button.Primary"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:text="@string/btn_edit"
-                app:icon="@drawable/ic_edit"
-                android:layout_marginBottom="@dimen/spacing_elements" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_delete_product"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:text="@string/btn_delete"
-                android:textColor="@color/colorError"
-                app:iconTint="@color/colorError"
-                app:strokeColor="@color/colorError"
-                app:icon="@drawable/ic_delete" />
-
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

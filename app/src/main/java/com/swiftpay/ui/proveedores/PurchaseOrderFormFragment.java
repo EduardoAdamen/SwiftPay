@@ -189,23 +189,20 @@ public class PurchaseOrderFormFragment extends Fragment {
         builder.setTitle(product.getName());
 
         TextInputEditText etQuantity = dialogView.findViewById(R.id.et_quantity);
-        TextInputEditText etCost = dialogView.findViewById(R.id.et_unit_cost);
-
         builder.setPositiveButton("Añadir", (dialog, which) -> {
             String qtyStr = etQuantity.getText() != null ? etQuantity.getText().toString() : "";
-            String costStr = etCost.getText() != null ? etCost.getText().toString() : "";
 
             try {
                 int qty = Integer.parseInt(qtyStr);
-                double cost = Double.parseDouble(costStr);
+                double cost = product.getPrice();
                 
-                if (qty > 0 && cost >= 0) {
+                if (qty > 0) {
                     poViewModel.addDraftItem(new OrderItemDraft(product.getId(), product.getName(), qty, cost));
                 } else {
-                    Toast.makeText(getContext(), "Valores inválidos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Cantidad inválida", Toast.LENGTH_SHORT).show();
                 }
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Valores requeridos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Cantidad requerida", Toast.LENGTH_SHORT).show();
             }
         });
         

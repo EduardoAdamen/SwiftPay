@@ -50,6 +50,20 @@ public class ProductRepository {
         ));
     }
 
+    public LiveData<PagingData<Product>> searchAllProductsPaged(String query) {
+        return PagingLiveData.getLiveData(new Pager<>(
+                new PagingConfig(20, 5, false, 60),
+                () -> db.productDao().searchAllPaged(query)
+        ));
+    }
+
+    public LiveData<PagingData<Product>> searchActiveProductsPaged(String query) {
+        return PagingLiveData.getLiveData(new Pager<>(
+                new PagingConfig(20, 5, false, 60),
+                () -> db.productDao().searchActivePaged(query)
+        ));
+    }
+
     /**
      * Lista completa de productos activos (para ventas / selección rápida).
      */

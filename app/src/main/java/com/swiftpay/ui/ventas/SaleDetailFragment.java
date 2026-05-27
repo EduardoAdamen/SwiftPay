@@ -24,6 +24,8 @@ import com.swiftpay.data.entity.SaleItem;
 import com.swiftpay.ui.adapter.SaleItemAdapter;
 import com.swiftpay.util.BluetoothPrintHelper;
 import com.swiftpay.util.Constants;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.swiftpay.util.PdfGenerator;
 import com.swiftpay.viewmodel.SaleViewModel;
 import java.io.File;
@@ -53,6 +55,13 @@ public class SaleDetailFragment extends Fragment {
         }
 
         TextView tvTotal = view.findViewById(R.id.tv_detail_total);
+        TextView tvId = view.findViewById(R.id.tv_detail_id);
+        TextView tvStatus = view.findViewById(R.id.chip_detail_status);
+        TextView tvDate = view.findViewById(R.id.tv_detail_date);
+        TextView tvPayment = view.findViewById(R.id.tv_detail_payment);
+        TextView tvSubtotal = view.findViewById(R.id.tv_detail_subtotal);
+        TextView tvDiscount = view.findViewById(R.id.tv_detail_discount);
+        
         MaterialButton btnCancel = view.findViewById(R.id.btn_cancel_sale);
         MaterialButton btnComplete = view.findViewById(R.id.btn_complete_sale);
         MaterialButton btnPdf = view.findViewById(R.id.btn_generate_pdf);
@@ -66,6 +75,25 @@ public class SaleDetailFragment extends Fragment {
         viewModel.getSaleById(saleId).observe(getViewLifecycleOwner(), sale -> {
             currentSale = sale;
             if (sale != null) {
+                tvId.setText("Ticket #" + sale.getId());
+                tvStatus.setText(sale.getStatus() != null ? sale.getStatus() : "Desconocido");
+                
+                int colorRes = Constants.STATUS_CANCELADA.equals(sale.getStatus()) ? R.color.colorError : 
+                               Constants.STATUS_COMPLETADA.equals(sale.getStatus()) ? R.color.colorPrimary : R.color.colorSuccess;
+                tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(requireContext().getColor(colorRes)));
+                
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_DISPLAY, Locale.getDefault());
+                tvDate.setText("Fecha: " + sdf.format(new Date(sale.getCreatedAt())));
+                tvPayment.setText("Pago: " + sale.getPaymentMethod());
+                
+                tvSubtotal.setText(String.format(Locale.getDefault(), "$%.2f", sale.getSubtotal()));
+                if (sale.getDiscountPercentage() > 0) {
+                    tvDiscount.setText(String.format(Locale.getDefault(), "-$%.2f (%.0f%%)", 
+                            sale.getSubtotal() * (sale.getDiscountPercentage()/100.0), sale.getDiscountPercentage()));
+                } else {
+                    tvDiscount.setText("$0.00");
+                }
+                
                 tvTotal.setText(String.format(Locale.getDefault(), "$%.2f", sale.getTotal()));
                 
                 btnCancel.setEnabled(!Constants.STATUS_CANCELADA.equals(sale.getStatus()));

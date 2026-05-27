@@ -7,7 +7,9 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import androidx.room.Transaction;
 import com.swiftpay.data.entity.PurchaseOrderItem;
+import com.swiftpay.data.entity.PurchaseOrderItemWithProduct;
 
 import java.util.List;
 
@@ -30,4 +32,8 @@ public interface PurchaseOrderItemDao {
 
     @Query("SELECT * FROM purchase_order_items WHERE order_id = :orderId")
     List<PurchaseOrderItem> getItemsForOrderSync(long orderId);
+
+    @Transaction
+    @Query("SELECT * FROM purchase_order_items WHERE order_id = :orderId")
+    LiveData<List<PurchaseOrderItemWithProduct>> getItemsWithProductForOrder(long orderId);
 }

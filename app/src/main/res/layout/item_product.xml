@@ -3,31 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/spacing_elements"
-    android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="@dimen/margin_lateral"
+    android:layout_marginVertical="5dp"
     app:cardCornerRadius="@dimen/corner_radius_card"
-    app:cardElevation="@dimen/elevation_card">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_card">
+        android:padding="@dimen/spacing_elements_lg"
+        android:gravity="center_vertical">
 
-        <ImageView
+        <!-- Product Image with rounded corners -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_product_image"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/product_image_list"
+            android:layout_height="@dimen/product_image_list"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_inventory_2"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.SwiftPay.MediumComponent"
             android:contentDescription="Product Image" />
 
+        <!-- Content -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="@dimen/spacing_elements">
+            android:layout_marginStart="@dimen/spacing_elements_lg">
 
             <TextView
                 android:id="@+id/tv_product_name"
@@ -35,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
                 android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end" />
 
@@ -42,14 +48,16 @@
                 android:id="@+id/tv_product_sku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
-                android:textColor="@color/colorTextSecondary" />
+                android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_marginTop="2dp" />
 
+            <!-- Price + Stock badge row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/spacing_elements"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -58,14 +66,32 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
+                <!-- Stock chip -->
                 <TextView
                     android:id="@+id/tv_product_stock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge" />
+                    android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                    android:textColor="@color/colorTextSecondary"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:background="@drawable/bg_stock_chip" />
+
             </LinearLayout>
         </LinearLayout>
+
+        <!-- Chevron indicator -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_arrow_back"
+            android:rotation="180"
+            android:layout_marginStart="@dimen/spacing_elements"
+            app:tint="@color/colorBorder"
+            android:contentDescription="Ver detalle" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -23,6 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.swiftpay.ui.adapter.PurchaseOrderItemAdapter;
+
 public class PurchaseOrderDetailFragment extends Fragment {
 
     private PurchaseOrderViewModel viewModel;
@@ -47,7 +51,7 @@ public class PurchaseOrderDetailFragment extends Fragment {
         TextView tvStatus = view.findViewById(R.id.tv_detail_order_status);
         TextView tvTotal = view.findViewById(R.id.tv_detail_order_total);
         TextView tvDate = view.findViewById(R.id.tv_detail_order_date);
-        LinearLayout llActions = view.findViewById(R.id.ll_pending_actions);
+        View llActions = view.findViewById(R.id.ll_pending_actions);
 
         viewModel = new ViewModelProvider(this).get(PurchaseOrderViewModel.class);
         
@@ -68,7 +72,16 @@ public class PurchaseOrderDetailFragment extends Fragment {
                 }
             });
 
-            // Note: In a complete implementation, a simpler adapter to show item details in rv_detail_order_items is used.
+            RecyclerView rvItems = view.findViewById(R.id.rv_detail_order_items);
+            if (rvItems != null) {
+                rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
+                PurchaseOrderItemAdapter adapter = new PurchaseOrderItemAdapter();
+                rvItems.setAdapter(adapter);
+
+                viewModel.getItemsWithProductForOrder(orderId).observe(getViewLifecycleOwner(), items -> {
+                    adapter.submitList(items);
+                });
+            }
         }
 
         view.findViewById(R.id.btn_edit_order).setOnClickListener(v -> {

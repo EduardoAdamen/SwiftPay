@@ -4,55 +4,77 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_marginHorizontal="@dimen/margin_lateral"
+    android:layout_marginVertical="5dp"
     app:cardCornerRadius="@dimen/corner_radius_card"
-    app:cardElevation="@dimen/elevation_card">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#FFFFFF">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_item_height"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="@dimen/padding_card">
-        <ImageView
-            android:id="@+id/iv_user_avatar"
-            android:layout_width="@dimen/avatar_small"
-            android:layout_height="@dimen/avatar_small"
-            android:src="@drawable/ic_account_circle"
-            android:contentDescription="@string/profile_photo"
-            app:tint="@color/colorPrimary" />
+
+        <!-- User avatar circle -->
+        <FrameLayout
+            android:layout_width="@dimen/avatar_medium"
+            android:layout_height="@dimen/avatar_medium"
+            android:background="@drawable/bg_icon_stat_primary"
+            android:layout_marginEnd="@dimen/spacing_elements_lg">
+
+            <ImageView
+                android:id="@+id/iv_user_avatar"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_account_circle"
+                android:contentDescription="@string/profile_photo"
+                app:tint="@color/colorPrimary" />
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="@dimen/spacing_elements">
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
                 android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end" />
+
             <TextView
                 android:id="@+id/tv_user_role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.SwiftPay.BodyMedium"
-                android:textColor="@color/colorTextSecondary" />
+                android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_marginTop="2dp" />
         </LinearLayout>
+
+        <!-- Status badge -->
         <TextView
             android:id="@+id/tv_user_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.SwiftPay.LabelLarge"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp" />
+            android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+            android:textColor="@color/white"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_status_badge"
+            android:layout_marginEnd="@dimen/spacing_elements" />
+
         <ImageView
             android:id="@+id/iv_user_menu"
             android:layout_width="@dimen/icon_action"
             android:layout_height="@dimen/icon_action"
-            android:layout_marginStart="@dimen/spacing_elements"
             android:src="@drawable/ic_edit"
             android:contentDescription="@string/btn_edit"
             app:tint="@color/colorTextSecondary" />

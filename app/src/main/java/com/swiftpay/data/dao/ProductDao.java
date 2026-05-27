@@ -31,8 +31,12 @@ public interface ProductDao {
     Product getBySku(String sku);
     @Query("SELECT * FROM products WHERE is_active = 1 ORDER BY name ASC")
     PagingSource<Integer, Product> getAllActivePaged();
+    @Query("SELECT * FROM products WHERE is_active = 1 AND (name LIKE '%' || :query || '%' OR sku LIKE '%' || :query || '%') ORDER BY name ASC")
+    PagingSource<Integer, Product> searchActivePaged(String query);
     @Query("SELECT * FROM products ORDER BY name ASC")
     PagingSource<Integer, Product> getAllPaged();
+    @Query("SELECT * FROM products WHERE name LIKE '%' || :query || '%' OR sku LIKE '%' || :query || '%' ORDER BY name ASC")
+    PagingSource<Integer, Product> searchAllPaged(String query);
     @Query("SELECT * FROM products WHERE is_active = 1 ORDER BY name ASC")
     LiveData<List<Product>> getAllActive();
     @Query("UPDATE products SET stock = stock - :qty WHERE id = :productId AND stock >= :qty")

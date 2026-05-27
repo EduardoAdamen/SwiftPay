@@ -6,6 +6,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.room.Transaction;
 
+
 import com.swiftpay.data.dao.AuditLogDao;
 import com.swiftpay.data.dao.ProductDao;
 import com.swiftpay.data.dao.PurchaseOrderDao;
@@ -14,6 +15,7 @@ import com.swiftpay.data.db.SwiftPayDatabase;
 import com.swiftpay.data.entity.AuditLog;
 import com.swiftpay.data.entity.PurchaseOrder;
 import com.swiftpay.data.entity.PurchaseOrderItem;
+import com.swiftpay.data.entity.PurchaseOrderItemWithProduct;
 import com.swiftpay.data.preferences.SessionManager;
 
 import java.util.List;
@@ -51,6 +53,10 @@ public class PurchaseOrderRepository {
 
     public LiveData<List<PurchaseOrderItem>> getOrderItems(long orderId) {
         return purchaseOrderItemDao.getItemsForOrder(orderId);
+    }
+
+    public LiveData<List<PurchaseOrderItemWithProduct>> getItemsWithProductForOrder(long orderId) {
+        return purchaseOrderItemDao.getItemsWithProductForOrder(orderId);
     }
 
     public void createOrderWithItems(PurchaseOrder order, List<PurchaseOrderItem> items, OnOperationCompleteListener listener) {

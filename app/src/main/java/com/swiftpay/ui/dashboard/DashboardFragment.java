@@ -32,7 +32,8 @@ public class DashboardFragment extends Fragment {
         
         TextView tvNewSalesCount = view.findViewById(R.id.tvNewSalesCount);
         TextView tvNewClientsCount = view.findViewById(R.id.tvNewClientsCount);
-        Button btnViewEvents = view.findViewById(R.id.btnViewEvents);
+        TextView tvEventsSubtitle = view.findViewById(R.id.tvEventsSubtitle);
+        View cvViewEvents = view.findViewById(R.id.cvViewEvents);
 
         viewModel.getNewSalesCount().observe(getViewLifecycleOwner(), count -> {
             tvNewSalesCount.setText(count != null ? String.valueOf(count) : "0");
@@ -44,10 +45,10 @@ public class DashboardFragment extends Fragment {
 
         viewModel.getTotalUnreviewedCount().observe(getViewLifecycleOwner(), count -> {
             int unreviewed = count != null ? count : 0;
-            btnViewEvents.setText("Ver Eventos Pendientes (" + unreviewed + ")");
+            tvEventsSubtitle.setText(unreviewed + " pendientes por revisar");
         });
 
-        btnViewEvents.setOnClickListener(v -> {
+        cvViewEvents.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.eventListFragment);
         });
     }

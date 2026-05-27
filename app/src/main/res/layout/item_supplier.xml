@@ -1,32 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_margin="8dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:elevation="2dp">
+    android:layout_marginHorizontal="@dimen/margin_lateral"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="@dimen/corner_radius_card"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#FFFFFF">
 
-    <TextView
-        android:id="@+id/tv_supplier_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/black" />
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_card"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/tv_supplier_rfc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp" />
+        <!-- Icon container -->
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_stat_primary"
+            android:layout_marginEnd="@dimen/spacing_elements_lg">
 
-    <TextView
-        android:id="@+id/tv_supplier_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp" />
-</LinearLayout>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_business"
+                app:tint="@color/colorPrimary"
+                android:contentDescription="Proveedor" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_supplier_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.SwiftPay.TitleMedium"
+                android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_supplier_rfc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/tv_supplier_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.SwiftPay.LabelMedium"
+                android:textColor="@color/colorTextSecondary" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_arrow_back"
+            android:rotation="180"
+            app:tint="@color/colorBorder"
+            android:contentDescription="Ver detalle" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

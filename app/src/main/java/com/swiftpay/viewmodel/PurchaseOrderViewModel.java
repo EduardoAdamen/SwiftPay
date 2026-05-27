@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.swiftpay.data.entity.OrderItemDraft;
 import com.swiftpay.data.entity.PurchaseOrder;
 import com.swiftpay.data.entity.PurchaseOrderItem;
+import com.swiftpay.data.entity.PurchaseOrderItemWithProduct;
 import com.swiftpay.data.repository.PurchaseOrderRepository;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public class PurchaseOrderViewModel extends AndroidViewModel {
 
     public LiveData<List<PurchaseOrderItem>> getOrderItems(long orderId) {
         return repository.getOrderItems(orderId);
+    }
+
+    public LiveData<List<PurchaseOrderItemWithProduct>> getItemsWithProductForOrder(long orderId) {
+        return repository.getItemsWithProductForOrder(orderId);
     }
 
     public LiveData<List<OrderItemDraft>> getDraftItems() {
@@ -72,7 +77,7 @@ public class PurchaseOrderViewModel extends AndroidViewModel {
     }
     
     public void clearDraftItems() {
-        draftItems.setValue(new ArrayList<>());
+        draftItems.postValue(new ArrayList<>());
     }
 
     public void initDraftFromExisting(List<PurchaseOrderItem> items, List<String> productNames) {

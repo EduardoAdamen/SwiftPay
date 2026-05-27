@@ -102,6 +102,18 @@ public class ProductListFragment extends Fragment {
                 adapter.submitData(getLifecycle(), pagingData);
             });
         }
+        
+        // Search
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                viewModel.setSearchQuery(s != null ? s.toString() : "");
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         btnScan.setOnClickListener(v -> navController.navigate(R.id.barcodeScannerFragment));
 
 

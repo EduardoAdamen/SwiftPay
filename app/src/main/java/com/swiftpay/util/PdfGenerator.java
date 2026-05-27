@@ -11,6 +11,13 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.swiftpay.data.entity.Sale;
 import com.swiftpay.data.entity.SaleItemWithProduct;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import com.swiftpay.R;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +51,21 @@ public final class PdfGenerator {
         PdfWriter writer = new PdfWriter(pdfFile.getAbsolutePath());
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
+
+        try {
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo);
+            if (bitmap != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] bitmapData = stream.toByteArray();
+                Image logo = new Image(ImageDataFactory.create(bitmapData));
+                logo.setWidth(UnitValue.createPointValue(80));
+                logo.setHorizontalAlignment(HorizontalAlignment.CENTER);
+                document.add(logo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Continue without logo if it fails
+        }
 
         Paragraph title = new Paragraph("SwiftPay POS")
                 .setTextAlignment(TextAlignment.CENTER)

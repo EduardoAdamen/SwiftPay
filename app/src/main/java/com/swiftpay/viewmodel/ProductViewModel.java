@@ -22,6 +22,7 @@ public class ProductViewModel extends AndroidViewModel {
     private LiveData<PagingData<Product>> allPagedProducts;
     private LiveData<PagingData<Product>> activePagedProducts;
     private final MutableLiveData<Product> scannedProductResult = new MutableLiveData<>();
+    private final MutableLiveData<String> currentQuery = new MutableLiveData<>("");
 
     public ProductViewModel(@NonNull Application application) {
         super(application);
@@ -33,13 +34,29 @@ public class ProductViewModel extends AndroidViewModel {
     public LiveData<Boolean> getIsLoading() { return isLoading; }
     public LiveData<Product> getScannedProductResult() { return scannedProductResult; }
 
+    public void setSearchQuery(String query) {
+        if (query == null) query = "";
+        if (!query.equals(currentQuery.getValue())) {
+            currentQuery.setValue(query);
+        }
+    }
+
     /** Obtiene el catálogo completo (para gestores/admin) */
     public LiveData<PagingData<Product>> getAllProductsPaged() {
         if (allPagedProducts == null) {
-            allPagedProducts = androidx.paging.PagingLiveData.cachedIn(
-                    repository.getAllProductsPaged(),
-                    androidx.lifecycle.ViewModelKt.getViewModelScope(this)
-            );
+            allPagedProducts = androidx.lifecycle.Transformations.switchMap(currentQuery, query -> {
+                if (query == null || query.trim().isEmpty()) {
+                    return androidx.paging.PagingLiveData.cachedIn(
+                            repository.getAllProductsPaged(),
+                            androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+                    );
+                } else {
+                    return androidx.paging.PagingLiveData.cachedIn(
+                            repository.searchAllProductsPaged(query.trim()),
+                            androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+                    );
+                }
+            });
         }
         return allPagedProducts;
     }
@@ -47,10 +64,19 @@ public class ProductViewModel extends AndroidViewModel {
     /** Obtiene solo los activos (para vendedores) */
     public LiveData<PagingData<Product>> getActiveProductsPaged() {
         if (activePagedProducts == null) {
-            activePagedProducts = androidx.paging.PagingLiveData.cachedIn(
-                    repository.getActiveProductsPaged(),
-                    androidx.lifecycle.ViewModelKt.getViewModelScope(this)
-            );
+            activePagedProducts = androidx.lifecycle.Transformations.switchMap(currentQuery, query -> {
+                if (query == null || query.trim().isEmpty()) {
+                    return androidx.paging.PagingLiveData.cachedIn(
+                            repository.getActiveProductsPaged(),
+                            androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+                    );
+                } else {
+                    return androidx.paging.PagingLiveData.cachedIn(
+                            repository.searchActiveProductsPaged(query.trim()),
+                            androidx.lifecycle.ViewModelKt.getViewModelScope(this)
+                    );
+                }
+            });
         }
         return activePagedProducts;
     }
